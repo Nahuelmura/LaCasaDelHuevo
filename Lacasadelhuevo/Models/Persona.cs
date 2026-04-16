@@ -19,6 +19,6 @@ namespace Lacasadelhuevo.Models
         // Relaciones
         public virtual ICollection<Cliente>? Clientes { get; set; }
         public virtual ICollection<Venta>? Ventas { get; set; }
-        public virtual ICollection<DetalleVenta>? DetallesVenta { get; set; }
+        // public virtual ICollection<DetalleVenta>? DetallesVentas { get; set; }
     }
 }

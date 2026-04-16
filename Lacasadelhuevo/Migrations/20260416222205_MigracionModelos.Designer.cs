@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lacasadelhuevo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260416212445_MigracionInicial")]
-    partial class MigracionInicial
+    [Migration("20260416222205_MigracionModelos")]
+    partial class MigracionModelos
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,177 @@ namespace Lacasadelhuevo.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Lacasadelhuevo.Models.Cliente", b =>
+                {
+                    b.Property<int>("ClienteID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClienteID"));
+
+                    b.Property<string>("DNI_CUIT")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Eliminado")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Localidad")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Mail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NombreCompletoCliente")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PersonalID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Telefono")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ClienteID");
+
+                    b.HasIndex("PersonalID");
+
+                    b.ToTable("Clientes");
+                });
+
+            modelBuilder.Entity("Lacasadelhuevo.Models.DetalleVenta", b =>
+                {
+                    b.Property<int>("DetalleVentaID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DetalleVentaID"));
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("PrecioUnitario")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProductoID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VentaID")
+                        .HasColumnType("int");
+
+                    b.HasKey("DetalleVentaID");
+
+                    b.HasIndex("ProductoID");
+
+                    b.HasIndex("VentaID");
+
+                    b.ToTable("DetalleVentas");
+                });
+
+            modelBuilder.Entity("Lacasadelhuevo.Models.Persona", b =>
+                {
+                    b.Property<int>("PersonalID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PersonalID"));
+
+                    b.Property<string>("DNI")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Domicilio")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Localidad")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Mail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NombreCompleto")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefono")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PersonalID");
+
+                    b.ToTable("Personas");
+                });
+
+            modelBuilder.Entity("Lacasadelhuevo.Models.Producto", b =>
+                {
+                    b.Property<int>("ProductoID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductoID"));
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Codigo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Eliminado")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("FechaIngreso")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Observacion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("PrecioCosto")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PrecioVenta")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("ProductoID");
+
+                    b.ToTable("Productos");
+                });
+
+            modelBuilder.Entity("Lacasadelhuevo.Models.Venta", b =>
+                {
+                    b.Property<int>("VentaID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VentaID"));
+
+                    b.Property<int>("ClienteID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaVenta")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FormaPago")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PersonalID")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("VentaID");
+
+                    b.HasIndex("ClienteID");
+
+                    b.HasIndex("PersonalID");
+
+                    b.ToTable("Ventas");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -227,6 +398,53 @@ namespace Lacasadelhuevo.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Lacasadelhuevo.Models.Cliente", b =>
+                {
+                    b.HasOne("Lacasadelhuevo.Models.Persona", "Personas")
+                        .WithMany("Clientes")
+                        .HasForeignKey("PersonalID");
+
+                    b.Navigation("Personas");
+                });
+
+            modelBuilder.Entity("Lacasadelhuevo.Models.DetalleVenta", b =>
+                {
+                    b.HasOne("Lacasadelhuevo.Models.Producto", "Productos")
+                        .WithMany("DetallesVentas")
+                        .HasForeignKey("ProductoID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Lacasadelhuevo.Models.Venta", "Ventas")
+                        .WithMany("DetallesVentas")
+                        .HasForeignKey("VentaID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Productos");
+
+                    b.Navigation("Ventas");
+                });
+
+            modelBuilder.Entity("Lacasadelhuevo.Models.Venta", b =>
+                {
+                    b.HasOne("Lacasadelhuevo.Models.Cliente", "Clientes")
+                        .WithMany("Ventas")
+                        .HasForeignKey("ClienteID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Lacasadelhuevo.Models.Persona", "Personas")
+                        .WithMany("Ventas")
+                        .HasForeignKey("PersonalID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Clientes");
+
+                    b.Navigation("Personas");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -276,6 +494,28 @@ namespace Lacasadelhuevo.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Lacasadelhuevo.Models.Cliente", b =>
+                {
+                    b.Navigation("Ventas");
+                });
+
+            modelBuilder.Entity("Lacasadelhuevo.Models.Persona", b =>
+                {
+                    b.Navigation("Clientes");
+
+                    b.Navigation("Ventas");
+                });
+
+            modelBuilder.Entity("Lacasadelhuevo.Models.Producto", b =>
+                {
+                    b.Navigation("DetallesVentas");
+                });
+
+            modelBuilder.Entity("Lacasadelhuevo.Models.Venta", b =>
+                {
+                    b.Navigation("DetallesVentas");
                 });
 #pragma warning restore 612, 618
         }

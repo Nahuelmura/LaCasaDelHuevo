@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Lacasadelhuevo.Migrations
 {
     /// <inheritdoc />
-    public partial class MigracionInicial : Migration
+    public partial class MigracionModelos : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,6 +48,44 @@ namespace Lacasadelhuevo.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Personas",
+                columns: table => new
+                {
+                    PersonalID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NombreCompleto = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Telefono = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Domicilio = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Localidad = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DNI = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Mail = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Personas", x => x.PersonalID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Productos",
+                columns: table => new
+                {
+                    ProductoID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Codigo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Observacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Cantidad = table.Column<int>(type: "int", nullable: false),
+                    PrecioCosto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PrecioVenta = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FechaIngreso = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Productos", x => x.ProductoID);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,6 +194,89 @@ namespace Lacasadelhuevo.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Clientes",
+                columns: table => new
+                {
+                    ClienteID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PersonalID = table.Column<int>(type: "int", nullable: true),
+                    NombreCompletoCliente = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Localidad = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Telefono = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Mail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DNI_CUIT = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clientes", x => x.ClienteID);
+                    table.ForeignKey(
+                        name: "FK_Clientes_Personas_PersonalID",
+                        column: x => x.PersonalID,
+                        principalTable: "Personas",
+                        principalColumn: "PersonalID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ventas",
+                columns: table => new
+                {
+                    VentaID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClienteID = table.Column<int>(type: "int", nullable: false),
+                    PersonalID = table.Column<int>(type: "int", nullable: false),
+                    FechaVenta = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FormaPago = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    UserID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ventas", x => x.VentaID);
+                    table.ForeignKey(
+                        name: "FK_Ventas_Clientes_ClienteID",
+                        column: x => x.ClienteID,
+                        principalTable: "Clientes",
+                        principalColumn: "ClienteID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Ventas_Personas_PersonalID",
+                        column: x => x.PersonalID,
+                        principalTable: "Personas",
+                        principalColumn: "PersonalID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DetalleVentas",
+                columns: table => new
+                {
+                    DetalleVentaID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    VentaID = table.Column<int>(type: "int", nullable: false),
+                    UserID = table.Column<int>(type: "int", nullable: false),
+                    ProductoID = table.Column<int>(type: "int", nullable: false),
+                    Cantidad = table.Column<int>(type: "int", nullable: false),
+                    PrecioUnitario = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DetalleVentas", x => x.DetalleVentaID);
+                    table.ForeignKey(
+                        name: "FK_DetalleVentas_Productos_ProductoID",
+                        column: x => x.ProductoID,
+                        principalTable: "Productos",
+                        principalColumn: "ProductoID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DetalleVentas_Ventas_VentaID",
+                        column: x => x.VentaID,
+                        principalTable: "Ventas",
+                        principalColumn: "VentaID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -194,6 +315,31 @@ namespace Lacasadelhuevo.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Clientes_PersonalID",
+                table: "Clientes",
+                column: "PersonalID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DetalleVentas_ProductoID",
+                table: "DetalleVentas",
+                column: "ProductoID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DetalleVentas_VentaID",
+                table: "DetalleVentas",
+                column: "VentaID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ventas_ClienteID",
+                table: "Ventas",
+                column: "ClienteID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ventas_PersonalID",
+                table: "Ventas",
+                column: "PersonalID");
         }
 
         /// <inheritdoc />
@@ -215,10 +361,25 @@ namespace Lacasadelhuevo.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "DetalleVentas");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Productos");
+
+            migrationBuilder.DropTable(
+                name: "Ventas");
+
+            migrationBuilder.DropTable(
+                name: "Clientes");
+
+            migrationBuilder.DropTable(
+                name: "Personas");
         }
     }
 }

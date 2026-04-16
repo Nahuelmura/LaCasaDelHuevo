@@ -12,11 +12,11 @@ namespace Lacasadelhuevo.Models
         
         public int ClienteID { get; set; }
         [ForeignKey("ClienteID")]
-        public virtual Cliente? Cliente { get; set; }
+        public virtual Cliente? Clientes { get; set; }
         
         public int PersonalID { get; set; }
         [ForeignKey("PersonalID")]
-        public virtual Persona? Persona { get; set; }
+        public virtual Persona? Personas { get; set; }
         
         public DateTime FechaVenta { get; set; }
         public string? FormaPago { get; set; }
@@ -25,6 +25,6 @@ namespace Lacasadelhuevo.Models
         public int UserID { get; set; }
 
         // Relaciones
-        public virtual ICollection<DetalleVenta>? DetallesVenta { get; set; }
+        public virtual ICollection<DetalleVenta>? DetallesVentas { get; set; }
     }
 }

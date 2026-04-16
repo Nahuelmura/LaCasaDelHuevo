@@ -12,7 +12,7 @@ namespace Lacasadelhuevo.Models
         
         public int? PersonalID { get; set; }
         [ForeignKey("PersonalID")]
-        public virtual Persona? Persona { get; set; }
+        public virtual Persona? Personas { get; set; }
         
         public string? NombreCompletoCliente { get; set; }
         public string? Localidad { get; set; }

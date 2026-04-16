@@ -24,6 +24,6 @@ namespace Lacasadelhuevo.Models
         public bool Eliminado { get; set; }
 
         // Relaciones
-        public virtual ICollection<DetalleVenta>? DetallesVenta { get; set; }
+        public virtual ICollection<DetalleVenta>? DetallesVentas { get; set; }
     }
 }
