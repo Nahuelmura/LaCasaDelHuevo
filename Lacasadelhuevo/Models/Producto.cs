@@ -26,4 +26,25 @@ namespace Lacasadelhuevo.Models
         // Relaciones
         public virtual ICollection<DetalleVenta>? DetallesVentas { get; set; }
     }
+
+
+    public  class ProductoVista
+    {
+        public int ProductoID { get; set; }
+        public string? Codigo { get; set; }
+        public string? Descripcion { get; set; }
+        public string? Observacion { get; set; }
+        public int Cantidad { get; set; }
+        
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal PrecioCosto { get; set; }
+        
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal PrecioVenta { get; set; }
+        
+        public DateTime FechaIngreso { get; set; }
+        public string? FechaIngresostring { get; set; }
+
+    }
 }
+

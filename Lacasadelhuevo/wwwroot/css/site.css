@@ -15,8 +15,10 @@ html {
 
 
 
-.container{
-  margin: 0;
+/* Contenedor específico para páginas de login/registro */
+.login-container {
+  margin: 0 auto;
+  max-width: 400px;
   background-color: rgb(29, 48, 85);
 }
 

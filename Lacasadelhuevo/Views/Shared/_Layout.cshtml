@@ -16,12 +16,8 @@
     <!-- ================= CSS PROYECTO ================= -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/cliente.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/cobro.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/Movimientocuenta.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ProyectoBohemia.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/Informe.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/Compra.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Producto.css" asp-append-version="true" />
+    
 
 
 
@@ -47,31 +43,40 @@
 <body>
 
     <header>
-        <nav class="navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">La Casa del Huevo</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    La Casa del Huevo
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav   
-                    flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cliente" asp-action="Index">Clientes</a>
+                            <a class="nav-link text-dark" asp-controller="Cliente" asp-action="Index">Clientes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Venta" asp-action="Index">Ventas</a>
+                            <a class="nav-link text-dark" asp-controller="Venta" asp-action="Index">Ventas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Producto" asp-action="Index">Productos</a>
+                            <a class="nav-link text-dark" asp-controller="Producto" asp-action="Index">Productos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Informe" asp-action="Index">Informes</a>
+                            <a class="nav-link text-dark" asp-controller="Informe" asp-action="Index">Informes</a>
                         </li>
-    <div class="container">
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

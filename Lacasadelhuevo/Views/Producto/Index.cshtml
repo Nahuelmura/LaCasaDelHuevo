@@ -1,0 +1,141 @@
+@{
+    ViewData["Title"] = "Productos";
+}
+<div class="pg-wrap">
+    <h1 class="pg-title">Productos</h1>
+    <p class="pg-subtitle">En esta sección usted podrá registrar productos.</p>
+
+    <div class="pg-card">
+        <p class="pg-section-label">Nuevo producto</p>
+        <input type="hidden" id="ProductoID" value="0">
+        <div class="pg-grid">
+            <div class="pg-field">
+                <label>Código</label>
+                <input type="text" id="codigo" placeholder="Ej: P001">
+            </div>
+            <div class="pg-field">
+                <label>Descripción</label>
+                <input type="text" id="descripcion" placeholder="Ej: Producto 1">
+            </div>
+            <div class="pg-field">
+                <label>Observación</label>
+                <input type="text" id="observacion" placeholder="Ej: Observación del producto">
+            </div>
+            <div class="pg-field">
+                <label>Cantidad</label>
+                <input type="number" id="cantidad" placeholder="10">
+            </div>
+            <div class="pg-field">
+                <label>Precio de costo</label>
+                <input type="number" id="precioCosto" placeholder="100.00">
+            </div>
+            <div class="pg-field">
+                <label>Precio de venta</label>
+                <input type="number" id="precioVenta" placeholder="200.00">
+            </div>
+            <div class="pg-field">
+                <label>Precio de venta</label>
+                <input type="date" id="precioVenta" placeholder="200.00">
+            </div>
+        </div>
+        <div class="pg-actions">
+            <button class="btn-secondary" type="button">Cancelar</button>
+            <button class="btn-primary" type="button" onclick="GuardarProducto()">Guardar producto</button>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- ================= MODAL EDITAR ================= -->
+    <div class="modal fade" id="modalEditarProducto" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content  cobros-dark">
+
+                <div class="modal-header ">
+                    <h5 class="modal-title Textobohemia">Editar Producto</h5>
+                    <button onclick="cerrarModal()" class="btn-close " data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body ">
+
+                    <div class="row ">
+
+                        <input type="hidden" id="ProductoIDModal">
+
+                        <div class="mb-3 col-md-3">
+                            <label class="form-label Textobohemia">Código</label>
+                            <input type="text" class="form-control" id="codigoModal">
+                        </div>
+
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label Textobohemia">Descripción</label>
+                            <input type="text" class="form-control" id="descripcionModal">
+                        </div>
+
+
+                        <div class="mb-3 col-md-4">
+                            <label class="form-label Textobohemia">Cantidad</label>
+                            <input type="text" class="form-control cantidad-input" id="cantidadModal">
+                        </div>
+
+                        <div class="mb-3 col-md-4">
+                            <label class="form-label Textobohemia">Precio costo</label>
+                            <input type="text" class="form-control precio-input" id="precioCostoModal">
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label class="form-label Textobohemia">Precio venta</label>
+                            <input type="text" class="form-control precio-input" id="precioVentaModal">
+                        </div>
+
+
+
+                        <div class="mb-3 col-md-9">
+                            <label class="form-label Textobohemia">Observación</label>
+                            <input type="text" class="form-control" id="observacionModal">
+                        </div>
+                    </div>
+
+                    <div class="mb-3 col-md-9">
+                        <label class="form-label Textobohemia">Fecha de ingreso</label>
+                        <input type="date" class="form-control" id="fechaIngresoModal">
+                    </div>
+                </div>
+
+             
+
+                    
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal" onclick="cerrarModal()">Cerrar</button>
+                    <button class="btn btn-outline-dark" onclick="GuardarProducto()">Guardar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="pg-card">
+        <p class="pg-section-label">Listado de productos</p>
+        <div class="table-responsive">
+            <table class="tbl-productos">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Descripción</th>
+                        <th>Observación</th>
+                        <th>Cantidad</th>
+                        <th>Precio de costo</th>
+                        <th>Precio de venta</th>
+                        <th>Fecha de ingreso</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-producto"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Producto.1.0.0.js"></script>
+}
