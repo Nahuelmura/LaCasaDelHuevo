@@ -72,8 +72,15 @@ public class ProductoController : Controller
     {
         try
         {
+            if (codigo == null || codigo.Trim() == "")
+            {
+                return Json("El código del producto es obligatorio");
+            }
 
-           
+            if (precioCosto > precioVenta)
+            {
+                return Json("El precio de costo no puede ser mayor al precio de venta");
+            }
 
 
             string resultado = "";
@@ -147,7 +154,7 @@ public class ProductoController : Controller
         }
         catch (Exception ex)
         {
-            return Json("Error: " + ex.Message);
+            return Json(new { success = false, mensaje = "Producto existente" });
         }
     }
 

@@ -45,7 +45,7 @@ function ListadoProducto() {
 function GuardarProducto() {
   let producto = {};
 
-  //   modal 
+  //   modal
   if ($("#modalEditarProducto").hasClass("show")) {
     producto = {
       productoID: $("#ProductoIDModal").val(),
@@ -71,6 +71,41 @@ function GuardarProducto() {
     };
   }
 
+  let precioCosto = parseFloat(producto.precioCosto);
+  let precioVenta = parseFloat(producto.precioVenta);
+
+  if (precioCosto >= precioVenta) {
+    Swal.fire({
+      icon: "error",
+      title: "Error en precios",
+      text: "El precio de costo no puede ser mayor al precio de venta",
+    });
+    return;
+  }
+
+  if (
+    isNaN(precioCosto) ||
+    isNaN(precioVenta) ||
+    precioCosto < 0 ||
+    precioVenta < 0
+  ) {
+    Swal.fire({
+      icon: "error",
+      title: "Error en precios",
+      text: "El precio de costo no puede ser mayor al precio de venta y ambos precios deben ser valores positivos",
+    });
+    return;
+  }
+
+  let cantidad = parseInt(producto.cantidad);
+  if (isNaN(cantidad) || cantidad < 0) {
+    Swal.fire({
+      icon: "error",
+      title: "Error en cantidad",
+      text: "La cantidad tiene que tener un valor positivo",
+    });
+    return;
+  }
 
   $.ajax({
     url: "/Producto/GuardarProducto",
@@ -81,10 +116,26 @@ function GuardarProducto() {
     success: function (response) {
       console.log(response);
 
-      alert(response);
+  if (response === "Producto existente") {
+    Swal.fire({
+      icon: "error",
+      title: "Código duplicado",
+      text: "El código ingresado ya existe.",
+    });
+    return;
+  }
+
+
+ 
+   Swal.fire({
+     icon: "success",
+     title: "Producto guardado",
+     text: "El producto se guardó exitosamente",
+     timer: 2000,
+     showConfirmButton: false,
+   });
 
       ListadoProducto();
-
 
       if ($("#modalEditarProducto").hasClass("show")) {
         let modal = bootstrap.Modal.getInstance(
@@ -104,23 +155,23 @@ function GuardarProducto() {
 
 function AbrirModalEditar(productoID) {
   $.ajax({
-    url: "/Producto/ListadoProducto", 
+    url: "/Producto/ListadoProducto",
     data: { productoID: productoID },
     type: "POST",
     dataType: "json",
     success: function (response) {
       let listadoProducto = response.productos;
-     let Producto = listadoProducto.find((p) => p.productoID == productoID);
+      let Producto = listadoProducto.find((p) => p.productoID == productoID);
 
       document.getElementById("ProductoIDModal").value = Producto.productoID;
       document.getElementById("codigoModal").value = Producto.codigo;
       document.getElementById("descripcionModal").value = Producto.descripcion;
-        document.getElementById("observacionModal").value = Producto.observacion;
-         document.getElementById("precioCostoModal").value = Producto.precioCosto;
-         document.getElementById("precioVentaModal").value = Producto.precioVenta;
-         document.getElementById("fechaIngresoModal").value = Producto.fechaIngresoString;
+      document.getElementById("observacionModal").value = Producto.observacion;
+      document.getElementById("precioCostoModal").value = Producto.precioCosto;
+      document.getElementById("precioVentaModal").value = Producto.precioVenta;
+      document.getElementById("fechaIngresoModal").value =
+        Producto.fechaIngresoString;
 
-  
       let modal = new bootstrap.Modal(
         document.getElementById("modalEditarProducto"),
       );
@@ -136,3 +187,11 @@ function AbrirModalEditar(productoID) {
     },
   });
 }
+
+const inputs = document.querySelectorAll(".soloNumeros");
+
+inputs.forEach((input) => {
+  input.addEventListener("input", function () {
+    this.value = this.value.replace(/\D/g, "");
+  });
+});
