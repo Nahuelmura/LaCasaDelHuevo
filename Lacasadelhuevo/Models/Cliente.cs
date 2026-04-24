@@ -15,6 +15,7 @@ namespace Lacasadelhuevo.Models
         public virtual Persona? Personas { get; set; }
         
         public string? NombreCompletoCliente { get; set; }
+        public string? Direccion { get; set; }
         public string? Localidad { get; set; }
         public string? Telefono { get; set; }
         public string? Mail { get; set; }
@@ -23,5 +24,21 @@ namespace Lacasadelhuevo.Models
 
         // Relaciones
         public virtual ICollection<Venta>? Ventas { get; set; }
+    }
+
+    public class ClienteVista
+    {
+        public int ClienteID { get; set; }
+        
+        public int? PersonalID { get; set; }
+        
+        public string? NombreCompletoCliente { get; set; }
+        public string? Direccion { get; set; }
+        public string? Localidad { get; set; }
+        public string? Telefono { get; set; }
+        public string? Mail { get; set; }
+        public string? DNI_CUIT { get; set; }
+        public bool Eliminado { get; set; }
+
     }
 }

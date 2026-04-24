@@ -2,21 +2,28 @@
 @model LoginModel
 
 @{
-    ViewData["Title"] = "Log in";
+    Layout = null;
+    ViewData["Title"] = "Iniciar Sesión";
 }
 
-<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
-
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar Sesión - La Casa del Huevo</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+</head>
 <body class="Imagen_Loguin">
-        
-   
+
     <div class="container px-4 py-5 text-center text-lg-start my-5">
         <div class="row gx-lg-5 align-items-center mb-5">
             <div class="col-lg-6 mb-5 mb-lg-0">
                 <h1 class="my-5 display-5 fw-bold ls-tight" style="color:rgb(229, 229, 216)">
-                    Caea del Huevo<br />
-                    <span >Inicia sesión en tu cuenta</span>
+                    La Casa del Huevo<br />
+                    <span>Inicia sesión en tu cuenta</span>
                 </h1>
             </div>
             <div class="col-lg-6 mb-5 mb-lg-0">
@@ -38,17 +45,11 @@
                                 <input class="form-check-input me-2" asp-for="Input.RememberMe" />
                                 <label asp-for="Input.RememberMe" class="form-label">@Html.DisplayNameFor(m => m.Input.RememberMe)</label>
                             </div>
-                            <button type="submit" class="btn btn-light btn-block">Inicio</button>
+                            <button type="submit" class="btn btn-light btn-block">Iniciar Sesión</button>
                             <div class="text-center mt-3">
-                                @* <p>
-                                    <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                                </p> *@
                                 <p>
-                                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registre  nuevo usuario</a>
+                                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registrar nuevo usuario</a>
                                 </p>
-                                @* <p>
-                                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                                </p> *@
                             </div>
                         </form>
                     </div>
@@ -57,7 +58,9 @@
         </div>
     </div>
 
- </body>
-@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <partial name="_ValidationScriptsPartial" />
-}
+
+</body>
+</html>

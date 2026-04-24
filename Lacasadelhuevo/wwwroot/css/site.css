@@ -4,6 +4,12 @@
   }
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -65,10 +71,13 @@ Loguin */
   background-color: #258cfb;
   color: red;
   }
-  .Imagen_Registro
-{
-  background-color: hsl(218, 41%, 15%);
-
+  
+.Imagen_Registro {
+    background-color: hsl(218, 41%, 15%);
+    min-height: 100vh;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);  /* escapa del container centrado */
+    padding: 0;
 }
 
 
