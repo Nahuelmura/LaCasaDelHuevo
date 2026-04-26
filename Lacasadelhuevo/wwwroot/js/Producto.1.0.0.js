@@ -9,28 +9,36 @@ function ListadoProducto() {
     dataType: "json",
 
     success: function (ProductosMostrar) {
+      listaProductos = ProductosMostrar.productos; // 👈 IMPORTANTE
       let contenidoTabla = ``;
 
       $.each(ProductosMostrar.productos, function (index, producto) {
+        const esActivo = !producto.eliminado;
         contenidoTabla += `
-          <tr>
-            <td>${producto.codigo}</td>
-            <td>${producto.descripcion}</td>
-              <td>${producto.observacion}</td>
-            <td>${producto.cantidad}</td>
-            <td>$ ${producto.precioCosto}</td>
-            <td>$ ${producto.precioVenta}</td>
-                        <td>${producto.fechaIngresostring}</td>
+            <tr>
+              <td>${producto.codigo}</td>
+              <td>${producto.descripcion}</td>
+                <td>${producto.observacion}</td>
+              <td>${producto.cantidad}</td>
+       <td>$ ${formatearNumero(producto.precioCosto)}</td>
+<td>$ ${formatearNumero(producto.precioVenta)}</td>
+                          <td>${producto.fechaIngresostring}</td>
+<td>
+                                 <div class='d-flex justify-content-center gap-2'>
 
-                            <td>
-      <button type="button"
-        class="btn-outline-success"
-        onclick="AbrirModalEditar(${producto.productoID})">
-        <i class="fa-solid fa-file-pen"></i>
-      </button>
-    </td>
-          </tr>
-        `;
+                                <!-- Editar -->
+                                <button type='button' 
+                                        class='btn-sm ${esActivo ? "btn-outline-success" : "btn-outline-danger"}'
+                                        onclick='AbrirModalEditar(${producto.productoID})'
+                                        title='${esActivo ? "Editar producto" : "Producto inactivo"}'>
+                                    <i class='fa-solid fa-file-pen'></i>
+                                </button>
+
+                            
+                            </div>
+                        </td>
+            </tr>
+          `;
       });
 
       $("#tbody-producto").html(contenidoTabla);
@@ -42,13 +50,49 @@ function ListadoProducto() {
   });
 }
 
+function CambiarEstadoProducto(productoID, accion) {
+  $.ajax({
+    url: "/Producto/DesactivarProducto",
+    type: "POST",
+    data: {
+      productoID: productoID,
+      accion: accion,
+    },
+    success: function (response) {
+      if (response.success) {
+        Swal.fire({
+          icon: "success",
+          title: "Estado actualizado",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+
+        ListadoProducto(); // refresca tabla
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: response.message,
+        });
+      }
+    },
+    error: function () {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo cambiar el estado",
+      });
+    },
+  });
+}
+
 function GuardarProducto() {
   let producto = {};
 
   //   modal
   if ($("#modalEditarProducto").hasClass("show")) {
     producto = {
-      productoID: $("#ProductoIDModal").val(),
+  productoID: parseInt($("#ProductoIDModal").val()),
       codigo: $("#codigoModal").val(),
       descripcion: $("#descripcionModal").val(),
       observacion: $("#observacionModal").val(),
@@ -56,6 +100,7 @@ function GuardarProducto() {
       precioCosto: $("#precioCostoModal").val(),
       precioVenta: $("#precioVentaModal").val(),
       fechaIngreso: $("#fechaIngresoModal").val(),
+      eliminado: !$("#estadoProductoModal").is(":checked"),
     };
   } else {
     //  normal
@@ -71,8 +116,11 @@ function GuardarProducto() {
     };
   }
 
-  let precioCosto = parseFloat(producto.precioCosto);
-  let precioVenta = parseFloat(producto.precioVenta);
+  let precioCosto = limpiarNumero(producto.precioCosto);
+  let precioVenta = limpiarNumero(producto.precioVenta);
+
+  producto.precioCosto = precioCosto;
+producto.precioVenta = precioVenta;
 
   if (precioCosto >= precioVenta) {
     Swal.fire({
@@ -110,30 +158,28 @@ function GuardarProducto() {
   $.ajax({
     url: "/Producto/GuardarProducto",
     type: "POST",
-    dataType: "json",
-    data: producto,
+    contentType: "application/json; charset=utf-8",
+    data: JSON.stringify(producto),
 
     success: function (response) {
       console.log(response);
 
-  if (response === "Producto existente") {
-    Swal.fire({
-      icon: "error",
-      title: "Código duplicado",
-      text: "El código ingresado ya existe.",
-    });
-    return;
-  }
+      if (response === "Producto existente") {
+        Swal.fire({
+          icon: "error",
+          title: "Código duplicado",
+          text: "El código ingresado ya existe.",
+        });
+        return;
+      }
 
-
- 
-   Swal.fire({
-     icon: "success",
-     title: "Producto guardado",
-     text: "El producto se guardó exitosamente",
-     timer: 2000,
-     showConfirmButton: false,
-   });
+      Swal.fire({
+        icon: "success",
+        title: "Producto guardado",
+        text: "El producto se guardó exitosamente",
+        timer: 2000,
+        showConfirmButton: false,
+      });
 
       ListadoProducto();
 
@@ -152,46 +198,92 @@ function GuardarProducto() {
     },
   });
 }
-
 function AbrirModalEditar(productoID) {
-  $.ajax({
-    url: "/Producto/ListadoProducto",
-    data: { productoID: productoID },
-    type: "POST",
-    dataType: "json",
-    success: function (response) {
-      let listadoProducto = response.productos;
-      let Producto = listadoProducto.find((p) => p.productoID == productoID);
+  let Producto = listaProductos.find((p) => p.productoID == productoID);
 
-      document.getElementById("ProductoIDModal").value = Producto.productoID;
-      document.getElementById("codigoModal").value = Producto.codigo;
-      document.getElementById("descripcionModal").value = Producto.descripcion;
-      document.getElementById("observacionModal").value = Producto.observacion;
-      document.getElementById("precioCostoModal").value = Producto.precioCosto;
-      document.getElementById("precioVentaModal").value = Producto.precioVenta;
-      document.getElementById("fechaIngresoModal").value =
-        Producto.fechaIngresoString;
+  if (!Producto) {
+    Swal.fire("Error", "Producto no encontrado", "error");
+    return;
+  }
 
-      let modal = new bootstrap.Modal(
-        document.getElementById("modalEditarProducto"),
-      );
-      modal.show();
-    },
-    error: function () {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Disculpe, existió un problema al abrir el modal de edición.",
-        confirmButtonText: "Aceptar",
-      });
-    },
+  $("#ProductoIDModal").val(Producto.productoID);
+  $("#codigoModal").val(Producto.codigo);
+  $("#descripcionModal").val(Producto.descripcion);
+  $("#observacionModal").val(Producto.observacion);
+  $("#precioCostoModal").val(Producto.precioCosto);
+  $("#precioVentaModal").val(Producto.precioVenta);
+  $("#cantidadModal").val(Producto.cantidad);
+  $("#fechaIngresoModal").val(Producto.fechaIngresostring);
+
+  const esActivo = !Producto.eliminado;
+
+  $("#estadoProductoModal").prop("checked", esActivo);
+
+  $("#estadoProductoLabel")
+    .text(esActivo ? "Activo" : "Inactivo")
+    .removeClass("text-success text-danger")
+    .addClass(esActivo ? "text-success" : "text-danger");
+
+  let modal = new bootstrap.Modal(
+    document.getElementById("modalEditarProducto"),
+  );
+
+  modal.show();
+}
+let hoy = new Date().toISOString().split("T")[0];
+$("#fechaIngreso").val(hoy);
+
+$("#estadoProductoLabel")
+  .text(esActivo ? "Activo" : "Inactivo")
+  .removeClass("text-success text-danger")
+  .addClass(esActivo ? "text-success" : "text-danger");
+
+document
+  .getElementById("estadoProductoModal")
+  .addEventListener("change", function () {
+    const label = document.getElementById("estadoProductoLabel");
+
+    if (this.checked) {
+      label.textContent = "Activo";
+      label.className = "form-check-label fw-bold ms-2 text-success";
+    } else {
+      label.textContent = "Inactivo";
+      label.className = "form-check-label fw-bold ms-2 text-danger";
+    }
+  });
+
+function limpiarNumero(valor) {
+  if (!valor) return NaN;
+
+  valor = valor.toString().trim();
+
+  // Caso 1: formato con coma (argentino) → 1.234,56
+  if (valor.includes(",")) {
+    return parseFloat(
+      valor
+        .replace(/\./g, "") // quita miles
+        .replace(",", "."), // decimal
+    );
+  }
+
+  // Caso 2: formato con punto decimal → 300.20
+  return parseFloat(valor);
+}
+
+function formatearNumero(num) {
+  return Number(num).toLocaleString("es-AR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   });
 }
 
-const inputs = document.querySelectorAll(".soloNumeros");
 
-inputs.forEach((input) => {
-  input.addEventListener("input", function () {
-    this.value = this.value.replace(/\D/g, "");
-  });
+$("#precioCosto, #precioVenta").on("input", function () {
+  let valor = $(this).val();
+
+  valor = valor
+    .replace(/[^\d,]/g, "") // solo números y coma
+    .replace(/(,.*),/g, "$1"); // solo una coma
+
+  $(this).val(valor);
 });

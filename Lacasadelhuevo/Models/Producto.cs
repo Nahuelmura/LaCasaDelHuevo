@@ -45,6 +45,8 @@ namespace Lacasadelhuevo.Models
         public DateTime FechaIngreso { get; set; }
         public string? FechaIngresostring { get; set; }
 
+        public bool Eliminado { get; set; }
+
     }
 }
 

@@ -34,10 +34,11 @@ public class ProductoController : Controller
 
     public JsonResult ListadoProducto()
     {
-        var productos = _context.Productos.ToList();
+        var productos = _context.Productos
+     .OrderBy(p => Convert.ToInt32(p.Codigo))
+     .ToList();
 
-   
-       
+
 
 
         var ProductosMostrar = productos.Select(p => new ProductoVista
@@ -50,7 +51,8 @@ public class ProductoController : Controller
             PrecioCosto = p.PrecioCosto,
             PrecioVenta = p.PrecioVenta,
             FechaIngreso = p.FechaIngreso,
-            FechaIngresostring = p.FechaIngreso.ToString("yyyy-MM-dd")
+            FechaIngresostring = p.FechaIngreso.ToString("yyyy-MM-dd"),
+            Eliminado = p.Eliminado
         }).ToList();
 
         return Json(new
@@ -68,41 +70,40 @@ public class ProductoController : Controller
 
 
 
-    public JsonResult GuardarProducto(int productoID, string codigo, string descripcion, string observacion, int cantidad, decimal precioCosto, decimal precioVenta, DateTime fechaIngreso)
+    [HttpPost]
+    public JsonResult GuardarProducto([FromBody] Producto producto)
     {
         try
         {
-            if (codigo == null || codigo.Trim() == "")
+            if (producto.Codigo == null || producto.Codigo.Trim() == "")
             {
                 return Json("El código del producto es obligatorio");
             }
 
-            if (precioCosto > precioVenta)
+            if (producto.PrecioCosto > producto.PrecioVenta)
             {
                 return Json("El precio de costo no puede ser mayor al precio de venta");
             }
 
-
             string resultado = "";
 
-
-            if (productoID == 0)
+            if (producto.ProductoID == 0)
             {
                 var existeProducto = _context.Productos
-                    .Where(e => e.Codigo == codigo)
+                    .Where(e => e.Codigo == producto.Codigo)
                     .Count();
 
                 if (existeProducto == 0)
                 {
                     var nuevoProducto = new Producto
                     {
-                        Codigo = codigo,
-                        Descripcion = descripcion,
-                        Observacion = observacion,
-                        Cantidad = cantidad,
-                        PrecioCosto = precioCosto,
-                        PrecioVenta = precioVenta,
-                        FechaIngreso = fechaIngreso
+                        Codigo = producto.Codigo,
+                        Descripcion = producto.Descripcion,
+                        Observacion = producto.Observacion,
+                        Cantidad = producto.Cantidad,
+                        PrecioCosto = producto.PrecioCosto,
+                        PrecioVenta = producto.PrecioVenta,
+                        FechaIngreso = producto.FechaIngreso
                     };
 
                     _context.Add(nuevoProducto);
@@ -117,23 +118,26 @@ public class ProductoController : Controller
             }
             else
             {
-                var editarProducto = _context.Productos.Where(e => e.ProductoID == productoID).SingleOrDefault();
+                var editarProducto = _context.Productos
+                    .Where(e => e.ProductoID == producto.ProductoID)
+                    .SingleOrDefault();
 
                 if (editarProducto != null)
                 {
                     var existeProducto = _context.Productos
-                        .Where(e => e.Codigo == codigo && e.ProductoID != productoID)
+                        .Where(e => e.Codigo == producto.Codigo && e.ProductoID != producto.ProductoID)
                         .Count();
 
                     if (existeProducto == 0)
                     {
-                        editarProducto.Codigo = codigo;
-                        editarProducto.Descripcion = descripcion;
-                        editarProducto.Observacion = observacion;
-                        editarProducto.Cantidad = cantidad;
-                        editarProducto.PrecioCosto = precioCosto;
-                        editarProducto.PrecioVenta = precioVenta;
-                        editarProducto.FechaIngreso = fechaIngreso;
+                        editarProducto.Codigo = producto.Codigo;
+                        editarProducto.Descripcion = producto.Descripcion;
+                        editarProducto.Observacion = producto.Observacion;
+                        editarProducto.Cantidad = producto.Cantidad;
+                        editarProducto.PrecioCosto = producto.PrecioCosto;
+                        editarProducto.PrecioVenta = producto.PrecioVenta;
+                        editarProducto.FechaIngreso = producto.FechaIngreso;
+                        editarProducto.Eliminado = producto.Eliminado;
 
                         _context.SaveChanges();
 
@@ -152,10 +156,48 @@ public class ProductoController : Controller
 
             return Json(resultado);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            return Json(new { success = false, mensaje = "Producto existente" });
+            return Json(new { success = false, mensaje = "Error al guardar producto" });
         }
     }
+
+    public JsonResult DesactivarProducto(int productoID, int accion)
+    {
+        var producto = _context.Productos.Find(productoID);
+
+        if (producto == null)
+        {
+            return Json(new { success = false, message = "Producto no encontrado." });
+        }
+
+        producto.Eliminado = (accion == 1);
+        _context.SaveChanges();
+
+        return Json(new { success = true });
+    }
+    [HttpPost]
+    public JsonResult EliminarProducto(int productoID)
+    {
+        var eliminarProducto = _context.Productos.Find(productoID);
+
+        if (eliminarProducto == null)
+        {
+            return Json(new { success = false, message = "Producto no encontrado." });
+        }
+
+        try
+        {
+            _context.Productos.Remove(eliminarProducto);
+            _context.SaveChanges();
+            return Json(new { success = true });
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, message = "Error al eliminar el producto: " + ex.Message });
+        }
+    }
+
+
 
 }

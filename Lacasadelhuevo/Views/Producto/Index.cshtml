@@ -1,123 +1,129 @@
 @{
     ViewData["Title"] = "Productos";
 }
+
 <div class="pg-wrap">
-    <h1 class="pg-title">Productos</h1>
-    <p class="pg-subtitle">En esta sección usted podrá registrar productos.</p>
 
-    <div class="pg-card">
-        <p class="pg-section-label">Nuevo producto</p>
-        <input type="hidden" id="ProductoID" value="0">
-        <div class="pg-grid">
-            <div class="pg-field">
-                <label>Código</label>
-                <input type="text" id="codigo" class="soloNumeros" placeholder="Ej: P001">
+    <!-- ── CARD PRINCIPAL: franja lateral + formulario ── -->
+    <div class="pg-card-split">
+        <div class="pg-sidebar">
+            <div>
+                <h1 class="pg-title">Productos</h1>
+                <p class="pg-subtitle">Registrá y gestioná tu inventario de forma rápida.</p>
             </div>
-            <div class="pg-field">
-                <label>Descripción</label>
-                <input type="text" id="descripcion" placeholder="Ej: Producto 1">
-            </div>
-            <div class="pg-field">
-                <label>Observación</label>
-                <input type="text" id="observacion" placeholder="Ej: Observación del producto">
-            </div>
-            <div class="pg-field">
-                <label>Cantidad</label>
-                <input type="number" id="cantidad" placeholder="10">
-            </div>
-            <div class="pg-field">
-                <label>Precio de costo</label>
-                <input type="number" id="precioCosto" placeholder="100.00">
-            </div>
-            <div class="pg-field">
-                <label>Precio de venta</label>
-                <input type="number" id="precioVenta" placeholder="200.00">
-            </div>
-            <div class="pg-field">
-                <label>Fecha de ingreso</label>
-                <input type="date" id="fechaIngreso" placeholder="">
-            </div>
+            <span class="pg-sidebar-badge">Nuevo producto</span>
         </div>
-        <div class="pg-actions">
-            <button class="btn-secondary" type="button">Cancelar</button>
-            <button class="btn-primary" type="button" onclick="GuardarProducto()">Guardar producto</button>
+
+        <div class="pg-form-panel">
+            <p class="pg-section-label">Datos del producto</p>
+            <input type="hidden" id="ProductoID" value="0">
+            <div class="pg-grid">
+                <div class="pg-field">
+                    <label>Código</label>
+                    <input type="text" id="codigo" class="soloNumeros" placeholder="Ej: P001">
+                </div>
+                <div class="pg-field">
+                    <label>Descripción</label>
+                    <input type="text" id="descripcion" placeholder="Ej: Producto 1">
+                </div>
+                <div class="pg-field">
+                    <label>Observación</label>
+                    <input type="text" id="observacion" placeholder="Ej: Observación del producto">
+                </div>
+                <div class="pg-field">
+                    <label>Cantidad</label>
+                    <input type="number" id="cantidad" placeholder="10">
+                </div>
+                <div class="pg-field">
+                    <label>Precio de costo</label>
+                    <input type="number" id="precioCosto" placeholder="100.00">
+                </div>
+                <div class="pg-field">
+                    <label>Precio de venta</label>
+                    <input type="number" id="precioVenta" placeholder="200.00">
+                </div>
+                <div class="pg-field">
+                    <label>Fecha de ingreso</label>
+                    <input type="date" id="fechaIngreso">
+                </div>
+            </div>
+            <div class="pg-actions">
+                <button class="btn-secondary" type="button">Cancelar</button>
+                <button class="btn-primary" type="button" onclick="GuardarProducto()">Guardar producto</button>
+            </div>
         </div>
     </div>
 
 
-
-
-
-    <!-- ================= MODAL EDITAR ================= -->
+    <!-- ── MODAL EDITAR ── -->
     <div class="modal fade" id="modalEditarProducto" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content  cobros-dark">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content pg-modal-content">
 
-                <div class="modal-header ">
-                    <h5 class="modal-title Textobohemia">Editar Producto</h5>
-                    <button onclick="cerrarModal()" class="btn-close " data-bs-dismiss="modal"></button>
+                <div class="modal-header pg-modal-header">
+                    <h5 class="modal-title pg-modal-title">Editar producto</h5>
+                    <button class="btn-close" data-bs-dismiss="modal" onclick="cerrarModal()"></button>
                 </div>
 
-                <div class="modal-body ">
-
-                    <div class="row ">
-
-                        <input type="hidden" id="ProductoIDModal">
-
-                        <div class="mb-3 col-md-3">
-                            <label class="form-label Textobohemia">Código</label>
-                            <input type="text" class="form-control soloNumeros" id="codigoModal" >
+                <div class="modal-body" style="padding:1.25rem">
+                    <p class="pg-section-label">Datos del producto</p>
+                    <input type="hidden" id="ProductoIDModal">
+                    <div class="row g-2">
+                        <div class="col-md-3">
+                            <label class="pg-label">Código</label>
+                            <input type="text" class="pg-input form-control" id="codigoModal" placeholder="P001">
                         </div>
-
-                        <div class="mb-3 col-md-6">
-                            <label class="form-label Textobohemia">Descripción</label>
-                            <input type="text" class="form-control" id="descripcionModal">
+                        <div class="col-md-9">
+                            <label class="pg-label">Descripción</label>
+                            <input type="text" class="pg-input form-control" id="descripcionModal"
+                                   placeholder="Ej: Producto 1">
                         </div>
-
-
-                        <div class="mb-3 col-md-4">
-                            <label class="form-label Textobohemia">Cantidad</label>
-                            <input type="text" class="form-control cantidad-input" id="cantidadModal">
+                        <div class="col-md-4">
+                            <label class="pg-label">Cantidad</label>
+                            <input type="text" class="pg-input form-control cantidad-input" id="cantidadModal"
+                                   placeholder="10">
                         </div>
-
-                        <div class="mb-3 col-md-4">
-                            <label class="form-label Textobohemia">Precio costo</label>
-                            <input type="text" class="form-control precio-input" id="precioCostoModal">
+                        <div class="col-md-4">
+                            <label class="pg-label">Precio costo</label>
+                            <input type="text" class="pg-input form-control precio-input" id="precioCostoModal"
+                                   placeholder="100.00">
                         </div>
-                        <div class="mb-3 col-md-4">
-                            <label class="form-label Textobohemia">Precio venta</label>
-                            <input type="text" class="form-control precio-input" id="precioVentaModal">
+                        <div class="col-md-4">
+                            <label class="pg-label">Precio venta</label>
+                            <input type="text" class="pg-input form-control precio-input" id="precioVentaModal"
+                                   placeholder="200.00">
                         </div>
-
-
-
-                        <div class="mb-3 col-md-9">
-                            <label class="form-label Textobohemia">Observación</label>
-                            <input type="text" class="form-control" id="observacionModal">
+                        <div class="col-md-8">
+                            <label class="pg-label">Observación</label>
+                            <input type="text" class="pg-input form-control" id="observacionModal"
+                                   placeholder="Observación del producto">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="pg-label">Fecha de ingreso</label>
+                            <input type="date" class="pg-input form-control" id="fechaIngresoModal">
                         </div>
                     </div>
-
-                    <div class="mb-3 col-md-9">
-                        <label class="form-label Textobohemia">Fecha de ingreso</label>
-                        <input type="date" class="form-control" id="fechaIngresoModal">
+                    <div class="form-check form-switch mt-3">
+                        <input class="form-check-input" type="checkbox" id="estadoProductoModal">
+                        <label id="estadoProductoLabel"
+                               class="form-check-label fw-bold ms-2 text-success">Activo</label>
                     </div>
                 </div>
 
-             
-
-                    
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" data-bs-dismiss="modal" onclick="cerrarModal()">Cerrar</button>
-                    <button class="btn btn-outline-dark" onclick="GuardarProducto()">Guardar</button>
+                <div class="modal-footer pg-modal-footer">
+                    <button class="btn-secondary" data-bs-dismiss="modal" onclick="cerrarModal()">Cerrar</button>
+                    <button class="btn-primary" onclick="GuardarProducto()">Guardar</button>
                 </div>
 
             </div>
         </div>
     </div>
 
+
+    <!-- ── TABLA ── -->
     <div class="pg-card">
         <p class="pg-section-label">Listado de productos</p>
-        <div class="table-responsive">
+        <div class="table-responsive pg-table-scroll">
             <table class="tbl-productos">
                 <thead>
                     <tr>
@@ -134,6 +140,7 @@
             </table>
         </div>
     </div>
+
 </div>
 
 @section Scripts {
