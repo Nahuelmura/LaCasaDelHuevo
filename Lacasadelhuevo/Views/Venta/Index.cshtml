@@ -1,0 +1,129 @@
+@{
+    ViewData["Title"] = "Ventas";
+}
+
+
+
+<link rel="stylesheet" href="~/css/Venta.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<div class="container-fluid px-4 py-4">
+
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="fw-bold mb-1"><i class="fas fa-shopping-cart me-2 text-primary"></i>Ventas</h1>
+            <p class="text-muted mb-0">Gestioná las ventas de forma completa y eficiente.</p>
+        </div>
+    </div>  
+    <div class="pg-card">
+        <p class="pg-section-label"><i class="fas fa-plus text-primary"></i>Nueva venta</p>
+        <input type="hidden" id="VentaID" value="0">
+        <div class="pg-grid">
+            <div class="pg-field">
+                <label>Cliente</label>
+                <select id="clienteId" class="form-select">
+                    <option value="">Seleccionar cliente...</option>
+                </select>
+                <div class="invalid-feedback">Debe seleccionar un cliente.</div>
+            </div>
+            <div class="pg-field">
+                <label>Producto</label>
+                <select id="productoId" class="form-select">
+                    <option value="">Seleccionar producto</option>
+                </select>
+                <div class="invalid-feedback">Debe seleccionar un producto.</div>
+            </div>
+            <div class="pg-field">
+                <label class="form-label">Stock disponible</label>
+                <input type="number" id="stockDisponible" class="form-control" readonly>
+            </div>
+            <div class="pg-field">
+                <label>Cantidad</label>
+                <input type="number" id="cantidad" placeholder="Ej: 1" min="1">
+            </div>
+            <!-- <div class="pg-field">
+                <label>Combo</label>
+                <input type="number" id="descuento" placeholder="Ej: 10.00" step="0.01" min="0">
+            </div> -->
+            <div class="pg-field">
+                <label>Precio Unitario</label>
+                <input type="number" id="precioUnitario" placeholder="Ej: 100.00" step="0.01" min="0">
+            </div>
+            <div class="pg-field">
+                <label>Total</label>
+                <input type="number" id="total" placeholder="Ej: 100.00" step="0.01" min="0" readonly>
+            </div>
+
+        </div>
+        <div class="pg-actions">
+            <button class="btn-secondary" type="button">Cancelar</button>
+            <button class="btn-primary" type="button" onclick="AgregarItemVenta()">
+                <i class="fa-solid fa-plus me-1"></i>Agregar a venta
+            </button>
+        </div>
+
+
+        <div class="pg-card">
+    <p class="pg-section-label"><i class="fas fa-list text-primary"></i>Items de la venta</p>
+    <div class="table-responsive mt-2">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Total</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="itemsVentaBody"></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-end fw-bold">Total general:</td>
+                    <td class="fw-bold text-success" id="totalGeneral">$0.00</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+        <div id="tablaVentaVacia" class="text-center py-4 text-muted">
+            <i class="fas fa-shopping-cart fa-2x mb-2 opacity-25"></i>
+            <p>No hay items agregados aún.</p>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2 mt-3">
+        <button class="btn btn-outline-danger" type="button" onclick="CancelarVenta()">
+            <i class="fa-solid fa-trash me-1"></i>Cancelar venta
+        </button>
+        <button class="btn btn-success" type="button" onclick="ConfirmarVenta()">
+            <i class="fa-solid fa-check me-1"></i>Confirmar venta
+        </button>
+    </div>
+</div>
+
+    </div>
+    <div class="pg-card">
+        <p class="pg-section-label">Lista de ventas</p>
+        <div class="table-responsive mt-4">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Total</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody id="ventasBody">
+                    @* Aquí se llenarán las filas de ventas desde el controlador *@
+                </tbody>
+            </table>
+        </div>  
+    </div>
+</div>
+
+<script src="~/js/Venta.1.0.0.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

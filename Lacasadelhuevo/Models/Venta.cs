@@ -14,7 +14,7 @@ namespace Lacasadelhuevo.Models
         [ForeignKey("ClienteID")]
         public virtual Cliente? Clientes { get; set; }
         
-        public int PersonalID { get; set; }
+       public int? PersonalID { get; set; }
         [ForeignKey("PersonalID")]
         public virtual Persona? Personas { get; set; }
         
@@ -26,5 +26,20 @@ namespace Lacasadelhuevo.Models
 
         // Relaciones
         public virtual ICollection<DetalleVenta>? DetallesVentas { get; set; }
+    }
+
+
+    public class VentaVista
+    {
+        public int VentaID { get; set; }
+        public string? ClienteNombre { get; set; }
+        public string? PersonalNombre { get; set; }
+        public string? Descripcion { get; set; }
+        public string? Observacion { get; set; }
+        public int Cantidad { get; set; }
+        public decimal PrecioUnitario { get; set; }
+        public DateTime FechaVenta { get; set; }
+        public string? FormaPago { get; set; }
+        public decimal Total { get; set; }
     }
 }
