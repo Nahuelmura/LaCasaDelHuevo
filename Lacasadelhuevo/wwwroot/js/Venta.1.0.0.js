@@ -268,3 +268,218 @@ window.onload = function () {
     ListadoVenta();
 
 };
+
+
+
+
+
+
+// venta-buscador.js
+
+let clienteSeleccionado = null;
+
+function initBuscadorCliente() {
+    const input = document.getElementById('buscadorCliente');
+    const resultados = document.getElementById('resultadosCliente');
+    const clienteIdInput = document.getElementById('clienteId');
+    const clienteInfoBox = document.getElementById('clienteInfo');
+
+    let debounceTimer = null;
+
+    input.addEventListener('input', function () {
+        const nombre = this.value.trim();
+
+        // Limpiar selección anterior
+        clienteSeleccionado = null;
+        clienteIdInput.value = '';
+        clienteInfoBox.classList.add('d-none');
+
+        clearTimeout(debounceTimer);
+
+        if (nombre.length < 2) {
+            resultados.innerHTML = '';
+            resultados.classList.add('d-none');
+            return;
+        }
+
+        debounceTimer = setTimeout(() => buscarCliente(nombre), 300);
+    });
+
+    // Cerrar dropdown al hacer click afuera
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('#buscador-wrapper')) {
+            resultados.classList.add('d-none');
+        }
+    });
+}
+
+function buscarCliente(nombre) {
+    const resultados = document.getElementById('resultadosCliente');
+
+    resultados.innerHTML = `
+        <li class="list-group-item text-muted d-flex align-items-center gap-2">
+            <span class="spinner-border spinner-border-sm"></span> Buscando...
+        </li>`;
+    resultados.classList.remove('d-none');
+
+    fetch(`/Venta/BuscarClientePorNombre?nombre=${encodeURIComponent(nombre)}`)
+        .then(res => res.json())
+        .then(data => renderResultados(data.clientes))
+        .catch(() => {
+            resultados.innerHTML = `<li class="list-group-item text-danger">Error al buscar clientes.</li>`;
+        });
+}
+
+function renderResultados(clientes) {
+    const resultados = document.getElementById('resultadosCliente');
+
+    if (!clientes || clientes.length === 0) {
+        resultados.innerHTML = `<li class="list-group-item text-muted">No se encontraron clientes.</li>`;
+        return;
+    }
+
+    resultados.innerHTML = clientes.map(c => `
+        <li class="list-group-item list-group-item-action"
+            onclick="seleccionarCliente(${c.clienteID}, '${escaparTexto(c.nombreCompletoCliente)}', '${escaparTexto(c.telefono)}', '${escaparTexto(c.direccion)}', '${escaparTexto(c.localidad)}')">
+            <div class="fw-semibold">${c.nombreCompletoCliente ?? 'Sin nombre'}</div>
+            <small class="text-muted">${c.localidad ?? ''} ${c.telefono ? '· ' + c.telefono : ''}</small>
+        </li>
+    `).join('');
+}
+
+function seleccionarCliente(id, nombre, telefono, direccion, localidad) {
+    clienteSeleccionado = { id, nombre, telefono, direccion, localidad };
+
+    document.getElementById('buscadorCliente').value = nombre;
+    document.getElementById('clienteId').value = id;
+    document.getElementById('resultadosCliente').classList.add('d-none');
+
+    // Mostrar info del cliente seleccionado
+    const box = document.getElementById('clienteInfo');
+    document.getElementById('infoNombre').textContent = nombre;
+    document.getElementById('infoTelefono').textContent = telefono || '-';
+    document.getElementById('infoDireccion').textContent = direccion || '-';
+    document.getElementById('infoLocalidad').textContent = localidad || '-';
+    box.classList.remove('d-none');
+}
+
+function escaparTexto(texto) {
+    return (texto ?? '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+}
+
+// Inicializar al cargar la página
+document.addEventListener('DOMContentLoaded', initBuscadorCliente);
+
+
+
+
+// ─── BUSCADOR DE PRODUCTO ───────────────────────────────────────────
+let productoSeleccionado = null;
+
+function initBuscadorProducto() {
+    const input = document.getElementById('buscadorProducto');
+    const resultados = document.getElementById('resultadosProducto');
+    let debounceTimer = null;
+
+    input.addEventListener('input', function () {
+        const termino = this.value.trim();
+
+        productoSeleccionado = null;
+        document.getElementById('productoId').value = '';
+        document.getElementById('stockDisponible').value = '';
+        document.getElementById('precioUnitario').value = '';
+        document.getElementById('cantidad').value = '';
+        document.getElementById('total').value = '';
+
+        clearTimeout(debounceTimer);
+
+        if (termino.length < 2) {
+            resultados.innerHTML = '';
+            resultados.classList.add('d-none');
+            return;
+        }
+
+        debounceTimer = setTimeout(() => buscarProducto(termino), 300);
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('#buscador-producto-wrapper')) {
+            resultados.classList.add('d-none');
+        }
+    });
+}
+
+function buscarProducto(termino) {
+    const resultados = document.getElementById('resultadosProducto');
+
+    resultados.innerHTML = `
+        <li class="list-group-item text-muted d-flex align-items-center gap-2">
+            <span class="spinner-border spinner-border-sm"></span> Buscando...
+        </li>`;
+    resultados.classList.remove('d-none');
+
+    fetch(`/Venta/BuscarProducto?termino=${encodeURIComponent(termino)}`)
+        .then(res => res.json())
+        .then(data => renderResultadosProducto(data.productos))
+        .catch(() => {
+            resultados.innerHTML = `<li class="list-group-item text-danger">Error al buscar productos.</li>`;
+        });
+}
+
+function renderResultadosProducto(productos) {
+    const resultados = document.getElementById('resultadosProducto');
+
+    if (!productos || productos.length === 0) {
+        resultados.innerHTML = `<li class="list-group-item text-muted">No se encontraron productos.</li>`;
+        return;
+    }
+
+    resultados.innerHTML = productos.map(p => `
+        <li class="list-group-item list-group-item-action"
+            onclick="seleccionarProducto(${p.productoID}, '${esc(p.codigo)}', '${esc(p.descripcion)}', '${esc(p.observacion)}', ${p.cantidad}, ${p.precioCosto}, ${p.precioVenta})">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="badge bg-secondary me-2">${p.codigo ?? 'S/C'}</span>
+                    <span class="fw-semibold">${p.descripcion ?? '-'}</span>
+                </div>
+                <div class="text-end">
+                    <small class="text-muted d-block">Stock: <strong>${p.cantidad}</strong></small>
+                    <small class="text-success fw-bold">$${p.precioVenta.toFixed(2)}</small>
+                </div>
+            </div>
+            ${p.observacion ? `<small class="text-muted">${p.observacion}</small>` : ''}
+        </li>
+    `).join('');
+}
+
+function seleccionarProducto(id, codigo, descripcion, observacion, stock, precioCosto, precioVenta) {
+    productoSeleccionado = { id, codigo, descripcion, observacion, stock, precioCosto, precioVenta };
+
+    document.getElementById('buscadorProducto').value = `[${codigo}] ${descripcion}`;
+    document.getElementById('productoId').value = id;
+    document.getElementById('stockDisponible').value = stock;
+    document.getElementById('precioUnitario').value = precioVenta.toFixed(2);
+    document.getElementById('resultadosProducto').classList.add('d-none');
+
+    // Recalcular total si ya hay cantidad
+    const cant = parseFloat(document.getElementById('cantidad').value) || 0;
+    document.getElementById('total').value = (cant * precioVenta).toFixed(2);
+
+    document.getElementById('cantidad').focus();
+}
+
+function esc(texto) {
+    return (texto ?? '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initBuscadorCliente();
+    initBuscadorProducto();
+
+    // Recalcular total al cambiar cantidad
+    document.getElementById('cantidad').addEventListener('input', function () {
+        const precio = parseFloat(document.getElementById('precioUnitario').value) || 0;
+        const cant = parseFloat(this.value) || 0;
+        document.getElementById('total').value = (cant * precio).toFixed(2);
+    });
+});

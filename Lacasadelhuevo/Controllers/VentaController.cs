@@ -132,4 +132,61 @@ public class VentaController : Controller
             return Json(new { success = false, message = "Error: " + mensajeError });
         }
     }
+
+
+
+
+
+    [HttpGet]
+    public JsonResult BuscarClientePorNombre(string nombre)
+    {
+        if (string.IsNullOrWhiteSpace(nombre))
+            return Json(new { clientes = new List<object>() });
+
+        var clientes = _context.Clientes
+            .Where(c => c.Eliminado == false &&
+                        c.NombreCompletoCliente != null &&
+                        c.NombreCompletoCliente.Contains(nombre))
+            .Select(c => new
+            {
+                c.ClienteID,
+                c.NombreCompletoCliente,
+                c.Telefono,
+                c.Direccion,
+                c.Localidad
+            })
+            .Take(10)
+            .ToList();
+
+        return Json(new { clientes });
+    }
+
+
+
+
+    [HttpGet]
+    public JsonResult BuscarProducto(string termino)
+    {
+        if (string.IsNullOrWhiteSpace(termino))
+            return Json(new { productos = new List<object>() });
+
+        var productos = _context.Productos
+            .Where(p => p.Eliminado == false &&
+                        (p.Codigo.Contains(termino) ||
+                         p.Descripcion.Contains(termino)))
+            .Select(p => new
+            {
+                p.ProductoID,
+                p.Codigo,
+                p.Descripcion,
+                p.Observacion,
+                p.Cantidad,
+                p.PrecioCosto,
+                p.PrecioVenta
+            })
+            .Take(10)
+            .ToList();
+
+        return Json(new { productos });
+    }
 }

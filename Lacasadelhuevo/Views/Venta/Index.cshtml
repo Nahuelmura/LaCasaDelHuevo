@@ -19,39 +19,80 @@
         <p class="pg-section-label"><i class="fas fa-plus text-primary"></i>Nueva venta</p>
         <input type="hidden" id="VentaID" value="0">
         <div class="pg-grid">
-            <div class="pg-field">
-                <label>Cliente</label>
-                <select id="clienteId" class="form-select">
-                    <option value="">Seleccionar cliente...</option>
-                </select>
-                <div class="invalid-feedback">Debe seleccionar un cliente.</div>
+
+            <!-- 🔎 CLIENTE -->
+            <div class="pg-field position-relative">
+                <!-- BUSCADOR DE CLIENTE -->
+                <div>
+                      
+                    <div>
+                        <div id="buscador-wrapper" class="position-relative">
+                            <label class="form-label fw-semibold">Buscar por nombre</label>
+                            <input type="text" id="buscadorCliente" class="form-control"
+                                   placeholder="Escribí el nombre del cliente..." autocomplete="off" />
+
+                            <!-- Campo oculto con el ID seleccionado -->
+                            <input type="hidden" id="clienteId" />
+
+                            <!-- Dropdown de resultados -->
+                            <ul id="resultadosCliente" class="list-group position-absolute w-100 shadow z-3 d-none"
+                                style="top: 100%; max-height: 260px; overflow-y: auto;">
+                            </ul>
+                        </div>
+
+                        <!-- Info del cliente seleccionado -->
+                        <div id="clienteInfo" class="alert alert-success mt-3 d-none">
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <strong>Nombre:</strong> <span id="infoNombre"></span>
+                                </div>
+                                  
+                            </div>
+                        </div>
+                    </div>
+
+                
+
+                </div>
+
             </div>
-            <div class="pg-field">
+
+            <!-- 📦 PRODUCTO -->
+            <div class="pg-field position-relative">
                 <label>Producto</label>
-                <select id="productoId" class="form-select">
-                    <option value="">Seleccionar producto</option>
-                </select>
-                <div class="invalid-feedback">Debe seleccionar un producto.</div>
+
+                <input type="text" id="buscadorProducto" class="form-control" placeholder="Buscar producto..."
+                       autocomplete="off">
+
+                <input type="hidden" id="productoId">
+
+                <ul id="resultadosProducto" class="list-group shadow z-3 d-none"
+                    style="max-height: 200px; overflow-y: auto;">
+                </ul>
             </div>
+
+            <!-- 📊 STOCK -->
             <div class="pg-field">
-                <label class="form-label">Stock disponible</label>
-                <input type="number" id="stockDisponible" class="form-control" readonly>
+                <label>Stock</label>
+                <input type="number" id="stockDisponible" readonly>
             </div>
+
+            <!-- 🔢 CANTIDAD -->
             <div class="pg-field">
                 <label>Cantidad</label>
-                <input type="number" id="cantidad" placeholder="Ej: 1" min="1">
+                <input type="number" id="cantidad" min="1">
             </div>
-            <!-- <div class="pg-field">
-                <label>Combo</label>
-                <input type="number" id="descuento" placeholder="Ej: 10.00" step="0.01" min="0">
-            </div> -->
+
+            <!-- 💲 PRECIO -->
             <div class="pg-field">
-                <label>Precio Unitario</label>
-                <input type="number" id="precioUnitario" placeholder="Ej: 100.00" step="0.01" min="0">
+                <label>Precio</label>
+                <input type="number" id="precioUnitario" step="0.01">
             </div>
+
+            <!-- 💰 TOTAL -->
             <div class="pg-field">
                 <label>Total</label>
-                <input type="number" id="total" placeholder="Ej: 100.00" step="0.01" min="0" readonly>
+                <input type="number" id="total" readonly>
             </div>
 
         </div>
