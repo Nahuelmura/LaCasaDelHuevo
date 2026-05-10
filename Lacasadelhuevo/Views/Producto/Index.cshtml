@@ -2,7 +2,7 @@
     ViewData["Title"] = "Productos";
 }
 
-<div class="pg-wrap">
+<div class="">
 
     <!-- ── CARD PRINCIPAL: franja lateral + formulario ── -->
     <div class="pg-card-split">
@@ -11,7 +11,7 @@
                 <h1 class="pg-title">Productos</h1>
                 <p class="pg-subtitle">Registrá y gestioná tu inventario de forma rápida.</p>
             </div>
-            <span class="pg-sidebar-badge">Nuevo producto</span>
+          
         </div>
 
         <div class="pg-form-panel">
@@ -46,11 +46,31 @@
                     <label>Fecha de ingreso</label>
                     <input type="date" id="fechaIngreso">
                 </div>
+
+                 <div class="pg-actions">
+                    <button class="btn-secondary mt-2" type="button">Cancelar</button>
+                    <button class="btn-primary mt-2" type="button" onclick="GuardarProducto()">Guardar producto</button>
             </div>
-            <div class="pg-actions">
-                <button class="btn-secondary" type="button">Cancelar</button>
-                <button class="btn-primary" type="button" onclick="GuardarProducto()">Guardar producto</button>
             </div>
+
+            <!-- 👇 NUEVA FILA ABAJO -->
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <label class="pg-label">Filtrar por nombre</label>
+                    <input type="text" class="pg-input form-control" id="filtroNombreModal"
+                           placeholder="Buscar por nombre">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="pg-label">Filtrar por fecha ingreso desde</label>
+                    <input type="date" class="pg-input form-control" id="fechaInicio">
+                </div>
+                <div class="col-md-4">
+                    <label class="pg-label">Filtrar por fecha ingreso hasta</label>
+                    <input type="date" class="pg-input form-control" id="fechaFin">
+                </div>
+            </div>
+           
         </div>
     </div>
 
@@ -121,7 +141,7 @@
 
 
     <!-- ── TABLA ── -->
-    <div class="pg-card">
+    <div class="">
         <p class="pg-section-label">Listado de productos</p>
         <div class="table-responsive pg-table-scroll">
             <table class="tbl-productos">

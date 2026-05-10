@@ -244,3 +244,10 @@
         align-self: center;
     }
 }
+
+
+.btn-primary,
+.btn-secondary {
+    height: 40px;
+    font-size: 12px;
+}

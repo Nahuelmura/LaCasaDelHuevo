@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* background: linear-gradient(135deg, #c9cde0 0%, #a476d2 100%); */
             min-height: 100vh;
             margin: 0;
             padding: 0;
@@ -39,10 +39,11 @@
         }
 
         .pg-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            font-size: 22px;
+                font-weight: 500;
+                color: #3C3489;
+                line-height: 1.2;
+                margin: 0 0 8px;
         }
 
         .pg-subtitle {
@@ -57,18 +58,17 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             padding: 2.5rem;
             margin-bottom: 2rem;
-            backdrop-filter: blur(10px);
+            /* backdrop-filter: blur(10px); */
             border: 1px solid rgba(255,255,255,0.2);
         }
 
         .pg-section-label {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            font-size: 10px;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: .1em;
+                color: #bbb;
+                margin: 0 0 1rem;
         }
 
         .pg-grid {
@@ -374,4 +374,10 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+.pg-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
 }

@@ -2,11 +2,33 @@ window.onload = function () {
   ListadoProducto();
 };
 
-function ListadoProducto() {
+$("#filtroNombreModal").on("keyup", function () {
+  let filtro = $(this).val();
+  ListadoProducto(filtro);
+});
+
+$("#fechaInicio, #fechaFin").on("change", function () {
+  let filtro = $("#filtroNombreModal").val();
+  ListadoProducto(filtro);
+});
+
+
+function ListadoProducto(filtro) {
+    let fechaInicio = $("#fechaInicio").val();
+    let fechaFin = $("#fechaFin").val();
+      console.log("Inicio:", fechaInicio, "Fin:", fechaFin);
+
   $.ajax({
     url: "/Producto/ListadoProducto",
     type: "GET",
     dataType: "json",
+    data: {
+      filtro: filtro,
+         fechaInicio: fechaInicio,
+      fechaFin: fechaFin,
+    
+    },
+    
 
     success: function (ProductosMostrar) {
       listaProductos = ProductosMostrar.productos; // 👈 IMPORTANTE

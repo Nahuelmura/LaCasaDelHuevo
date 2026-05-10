@@ -31,11 +31,21 @@ public class ClienteController : Controller
 
 
 
-    public JsonResult ListadoCliente()
+    public JsonResult ListadoCliente(string filtro)
     {
-        var clientes = _context.Clientes.ToList();
+        var clientes = _context.Clientes.AsQueryable();
 
-       var ClientesMostrar = clientes
+        if (!string.IsNullOrWhiteSpace(filtro))
+        {
+            filtro = filtro.ToLower();
+
+            clientes = clientes.Where(c =>
+                c.NombreCompletoCliente.ToLower().Contains(filtro) 
+               
+            );
+        }
+
+        var ClientesMostrar = clientes
     .OrderBy(c => c.Eliminado)
     .Select(c => new ClienteVista
     {

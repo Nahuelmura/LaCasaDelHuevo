@@ -31,15 +31,35 @@ public class ProductoController : Controller
     }
 
 
-
-    public JsonResult ListadoProducto()
+    public JsonResult ListadoProducto(string filtro, DateTime? fechaInicio, DateTime? fechaFin)
     {
-        var productos = _context.Productos
-     .OrderBy(p => Convert.ToInt32(p.Codigo))
-     .ToList();
+        var query = _context.Productos.AsQueryable();
 
+        //FILTRO
+        if (!string.IsNullOrEmpty(filtro))
+        {
+            filtro = filtro.ToLower();
 
+            query = query.Where(p =>
+                p.Codigo.ToLower().Contains(filtro) ||
+                p.Descripcion.ToLower().Contains(filtro)
+            );
+        }
 
+        if (fechaInicio.HasValue)
+        {
+            query = query.Where(p => p.FechaIngreso >= fechaInicio.Value.Date);
+        }
+
+        if (fechaFin.HasValue)
+        {
+            var fin = fechaFin.Value.Date.AddDays(1);
+            query = query.Where(p => p.FechaIngreso < fin);
+        }
+
+        var productos = query
+            .OrderBy(p => Convert.ToInt32(p.Codigo))
+            .ToList();
 
         var ProductosMostrar = productos.Select(p => new ProductoVista
         {
@@ -59,10 +79,7 @@ public class ProductoController : Controller
         {
             productos = ProductosMostrar
         });
-
-
     }
-
 
 
 

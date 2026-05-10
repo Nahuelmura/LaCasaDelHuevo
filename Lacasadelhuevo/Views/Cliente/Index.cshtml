@@ -1,27 +1,19 @@
-@{
-    ViewData["Title"] = "Clientes";
-}
-
 <link rel="stylesheet" href="~/css/Cliente.css" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    
-<div class="container-fluid px-4 py-4">
-
-         <div class="d-flex align-items-center justify-content-between mb-4">
+<div class="pg-card-split">
+    <div class="pg-sidebar">
         <div>
-            <h1 class="fw-bold mb-1"><i class="fas fa-users me-2 text-primary"></i>Clientes</h1>
-            <p class="text-muted mb-0">Gestioná los clientes de forma completa y eficiente.</p>
+            <h1 class="pg-title">Clientes</h1>
+            <p class="pg-subtitle">Registrá y gestioná tus clientes fácilmente.</p>
         </div>
     </div>
 
-    <div class="pg-card">
-    
-        <p class="pg-section-label"><i class="fas fa-user-plus text-primary"></i>Nuevo cliente</p>
+    <div class="pg-form-panel">
+        <p class="pg-section-label">Datos del cliente</p>
         <input type="hidden" id="ClienteID" value="0">
-    <div class="pg-grid">
+        <div class="pg-grid-3">
             <div class="pg-field">
-                <label>Nombre Completo</label>
+                <label>Nombre completo</label>
                 <input type="text" id="nombre" placeholder="Ej: Juan Pérez">
             </div>
             <div class="pg-field">
@@ -30,140 +22,122 @@
             </div>
             <div class="pg-field">
                 <label>Localidad</label>
-                <input type="text" id="localidad" placeholder="Ej: Ciudad Autónoma de Buenos Aires">
+                <input type="text" id="localidad" placeholder="Ej: Córdoba">
             </div>
             <div class="pg-field">
-                <label>DNI_CUIT</label>
-                <input type="text" id="dni_cuit" placeholder="Ej: 12345678">
+                <label>DNI / CUIT</label>
+                <input type="text" id="dni_cuit" placeholder="Ej: 20-12345678-9">
             </div>
             <div class="pg-field">
                 <label>Teléfono</label>
-                <input type="text" id="telefono" placeholder="Ej: 1234567890">
+                <input type="text" id="telefono" placeholder="Ej: 3563 412345">
             </div>
             <div class="pg-field">
                 <label>Email</label>
-                <input type="email" id="email" placeholder="Ej: juan.perez@example.com">
+                <input type="email" id="email" placeholder="Ej: juan@email.com">
             </div>
-
-           
         </div>
-         <div class="pg-actions">
-            <button class="btn-secondary" type="button">Cancelar</button>
-            <button class="btn-primary" type="button" onclick="GuardarCliente()">Guardar cliente</button>
+
+        <div style="display:flex; align-items:flex-end; gap:10px; margin-top:12px;">
+            <div class="pg-field" style="flex:1; max-width:300px;">
+                <label>Filtrar por nombre</label>
+                <input type="text" id="filtroNombre" placeholder="Ej: Juan Pérez">
+            </div>
+            <div class="pg-actions" style="margin-top:0;">
+                <button class="btn-secondary" type="button">Cancelar</button>
+                <button class="btn-primary" type="button" onclick="GuardarCliente()">Guardar cliente</button>
+            </div>
         </div>
     </div>
-        <div class="pg-card">
-            <p class="pg-section-label">Lista de clientes</p>
-            <div class="table-responsive mt-4">
-    <table class="table table-hover align-middle mb-0">
-        <thead class="table-dark">
-            <tr>
-                <th scope="col">
-                    <i class="fas fa-user me-2"></i>Nombre
-                </th>
-                <th scope="col">
-                    <i class="fas fa-map-marker-alt me-2"></i>Dirección
-                </th>
-                <th scope="col">
-                    <i class="fas fa-city me-2"></i>Localidad
-                </th>
-                <th scope="col">
-                    <i class="fas fa-id-card me-2"></i>DNI / CUIT
-                </th>
-                <th scope="col">
-                    <i class="fas fa-phone me-2"></i>Teléfono
-                </th>
-                <th scope="col">
-                    <i class="fas fa-envelope me-2"></i>Email
-                </th>
-                <th scope="col" class="text-center">Acciones</th>
-            </tr>
-        </thead>
-        <tbody id="clientesTableBody">
-            <!-- Aquí se insertarán dinámicamente las filas de clientes -->     
-     
-        </tbody>
-    </table>
+</div>
 
-    <!-- {{-- Estado vacío --}} -->
+
+<div class="">
+    <p class="pg-section-label">Listado de clientes</p>
+    <div class="table-responsive pg-table-scroll">
+        <table class="tbl-productos">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Localidad</th>
+                    <th>DNI / CUIT</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="clientesTableBody"></tbody>
+        </table>
+    </div>
     <div id="tablaVacia" class="text-center py-5 text-muted d-none">
         <i class="fas fa-users fa-3x mb-3 opacity-25"></i>
         <p class="fw-semibold">No hay clientes registrados</p>
         <p style="font-size:0.9rem">Agregá uno usando el formulario de arriba</p>
     </div>
 </div>
-</div>
-
 
 
 <!-- Modal para editar cliente -->
-<div class="modal fade" id="modalEditarCliente" tabindex="-1" aria-labelledby="modalEditarClienteLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title Textobohemia" id="modalEditarClienteLabel">Editar cliente</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="modal fade" id="modalEditarCliente" tabindex="-1" aria-labelledby="modalEditarClienteLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content pg-modal-content">
+
+            <div class="modal-header pg-modal-header">
+                <h5 class="modal-title pg-modal-title" id="modalEditarClienteLabel">Editar cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body" style="padding:1.25rem">
+                <p class="pg-section-label">Datos del cliente</p>
+                <input type="hidden" id="ClienteIDModal" value="0">
+                <div class="pg-grid-3">
+                    <div class="pg-field">
+                        <label>Nombre completo</label>
+                        <input type="text" id="nombreModal" placeholder="Ej: Juan Pérez">
+                    </div>
+                    <div class="pg-field">
+                        <label>Dirección</label>
+                        <input type="text" id="direccionModal" placeholder="Ej: Calle Falsa 123">
+                    </div>
+                    <div class="pg-field">
+                        <label>Localidad</label>
+                        <input type="text" id="localidadModal" placeholder="Ej: Córdoba">
+                    </div>
+                    <div class="pg-field">
+                        <label>DNI / CUIT</label>
+                        <input type="text" id="dni_cuitModal" placeholder="Ej: 20-12345678-9">
+                    </div>
+                    <div class="pg-field">
+                        <label>Teléfono</label>
+                        <input type="text" id="telefonoModal" placeholder="Ej: 3563 412345">
+                    </div>
+                    <div class="pg-field">
+                        <label>Email</label>
+                        <input type="email" id="emailModal" placeholder="Ej: juan@email.com">
+                    </div>
                 </div>
 
-                <div class="modal-body">
-                    <div class="pg-grid">
-                        <input type="hidden" id="ClienteIDModal" value="0">
-                        <div class="pg-field">
-                            <label>Nombre Completo</label>
-                            <input type="text" id="nombreModal" placeholder="Ej: Juan Pérez">
-                        </div>
-                        <div class="pg-field">
-                            <label>Dirección</label>
-                            <input type="text" id="direccionModal" placeholder="Ej: Calle Falsa 123">
-                        </div>
-                        <div class="pg-field">
-                            <label>Localidad</label>
-                            <input type="text" id="localidadModal" placeholder="Ej: Ciudad Autónoma de Buenos Aires">
-                        </div>
-                        <div class="pg-field">
-                            <label>DNI_CUIT</label>
-                            <input type="text" id="dni_cuitModal" placeholder="Ej: 12345678">
-                        </div>
-                        <div class="pg-field">
-                            <label>Teléfono</label>
-                            <input type="text" id="telefonoModal" placeholder="Ej: 1234567890">
-                        </div>
-                        <div class="pg-field">
-                            <label>Email</label>
-                            <input type="email" id="emailModal" placeholder="Ej: juan.perez@example.com">
-                            </div>
-                        </div>
-
-                        <div class="d-flex align-items-center justify-content-between bg-light rounded-3 px-3 py-2 mb-4">
-                    <div>
-                        <p class="mb-0 fw-semibold" style="font-size:0.9rem">Estado del cliente</p>
-                        <p class="mb-0 text-muted" style="font-size:0.8rem">Activá o desactivá este cliente</p>
-                    </div>
-                    <div class="form-check form-switch mb-0">
-                        <input class="form-check-input" type="checkbox" role="switch" 
-                               id="estadoClienteModal" style="width:3rem; height:1.5rem; cursor:pointer;">
-                        <label class="form-check-label fw-semibold ms-2" id="estadoClienteLabel" 
-                               for="estadoClienteModal" style="font-size:0.9rem">Activo</label>
-                    </div>
-                </div>
-                        
-                                 <div class="pg-actions">
-                                    <button class="btn-secondary" type="button">Cancelar</button>
-                                    <button class="btn-primary" type="button" onclick="GuardarCliente()">Guardar cliente</button>
-                                </div>
-                    </div>
+                <div class="form-check form-switch mt-3">
+                    <input class="form-check-input" type="checkbox" id="estadoClienteModal"
+                           style="width:3rem; height:1.5rem; cursor:pointer;">
+                    <label class="form-check-label fw-bold ms-2 text-success" id="estadoClienteLabel"
+                           for="estadoClienteModal">Activo</label>
                 </div>
             </div>
+
+            <div class="modal-footer pg-modal-footer">
+                <button class="btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn-primary" onclick="GuardarCliente()">Guardar cliente</button>
+            </div>
+
         </div>
     </div>
 </div>
 
 
-
-    <!-- Bootstrap 5.3 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 @section Scripts {
     <script src="~/js/Cliente.1.0.0.js"></script>

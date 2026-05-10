@@ -2,19 +2,23 @@ window.onload = function () {
     ListadoCliente();
 };
 
-console.log("Cliente.js cargado correctamente");
+$("#filtroNombre").on("keyup", function () {
+  let filtro = $(this).val();
+  ListadoCliente(filtro);
+});
 
-function ListadoCliente() {
-    $.ajax({
-        url: "/Cliente/ListadoCliente",
-        type: "GET",
-        dataType: "json",
-        success: function (ClientesMostrar) {
-            let contenidoTabla = ``;
-            $.each(ClientesMostrar.clientes, function (index, cliente) {
-                const esActivo = !cliente.eliminado; // ← corregido
-                contenidoTabla += `
-                    <tr class="${!esActivo ? 'table-secondary text-muted' : ''}">
+function ListadoCliente(filtro) {
+  $.ajax({
+    url: "/Cliente/ListadoCliente",
+    type: "GET",
+    dataType: "json",
+    data: { filtro: filtro },
+    success: function (ClientesMostrar) {
+      let contenidoTabla = ``;
+      $.each(ClientesMostrar.clientes, function (index, cliente) {
+        const esActivo = !cliente.eliminado; // ← corregido
+        contenidoTabla += `
+                    <tr class="${!esActivo ? "table-secondary text-muted" : ""}">
                         <td>${cliente.nombreCompletoCliente}</td>
                         <td>${cliente.direccion}</td>
                         <td>${cliente.localidad}</td>
@@ -23,12 +27,13 @@ function ListadoCliente() {
                         <td>${cliente.mail}</td>
                         <td>
                             <div class='d-flex justify-content-center gap-2'>
-                                <button type='button' class='btn-sm ${esActivo ? 'btn-outline-success' : 'btn-outline-danger'}' 
+                                <button type='button' class='btn-sm ${esActivo ? "btn-outline-success" : "btn-outline-danger"}' 
                                         onclick='AbrirModalEditar(${cliente.clienteID})'
-                                        title='${esActivo ? 'Editar cliente' : 'Cliente inactivo'}'>
+                                        title='${esActivo ? "Editar cliente" : "Cliente inactivo"}'>
                                     <i class='fa-solid fa-file-pen'></i>
                                 </button>
-                                ${esActivo
+                                ${
+                                  esActivo
                                     ? ``
                                     : `<button type='button' class='btn-sm btn-secondary' disabled title='Cliente inactivo'>
                                            <i class='fa-solid fa-user-xmark'></i>
@@ -38,14 +43,14 @@ function ListadoCliente() {
                         </td>
                     </tr>
                 `;
-            });
+      });
 
-            $("#clientesTableBody").html(contenidoTabla);
-        },
-        error: function (xhr, status, error) {
-            console.error("Error al obtener el listado de clientes:", error);
-        }
-    });
+      $("#clientesTableBody").html(contenidoTabla);
+    },
+    error: function (xhr, status, error) {
+      console.error("Error al obtener el listado de clientes:", error);
+    },
+  });
 }
 
 function GuardarCliente() {
