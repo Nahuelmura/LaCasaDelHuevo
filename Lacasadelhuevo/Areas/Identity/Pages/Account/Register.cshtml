@@ -3,87 +3,143 @@
 
 @{
     Layout = null;
+    ViewData["Title"] = "Registrarse";
 }
-@{
-    ViewData["Title"] = "Register";
-}
-
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registrarse - La Casa del Huevo</title>
+    <title>Registrarse — La Casa del Huevo</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/home.css" />
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
 </head>
-<body class="Imagen_Registro">
 
+<body>
 
-    <div class="container px-4 py-5 text-center text-lg-start my-5">
-        
-        <div class="row gx-lg-5 align-items-center mb-5">
-            <div class="col-lg-6 mb-5 mb-lg-0">
-                <h1 class="my-5 display-5 fw-bold ls-tight Textobohemia" style="color:rgb(109, 85, 32)">
-                    La Casa del Huevo<br />
-                    <span>Regístrate ingresando tus datos</span>
-                </h1>
+    <main class="login-wrapper" role="main">
+
+        <!-- {{-- COLUMNA IZQUIERDA: branding --}} -->
+        <section class="login-branding" aria-label="Información del sistema">
+            <div class="brand-icon" aria-hidden="true">🥚</div>
+
+            <h1 class="brand-title">
+                La Casa<br />
+                <span>del Huevo</span>
+            </h1>
+
+            <p class="brand-subtitle">
+                Creá tu cuenta para acceder al sistema de gestión integral.
+            </p>
+        </section>
+
+        <!-- {{-- COLUMNA DERECHA: formulario --}} -->
+        <div class="login-card">
+            <div class="login-card-header">
+                <h2>Crear cuenta</h2>
+                <p>Completá tus datos para registrarte</p>
+                <div class="header-divider" aria-hidden="true"></div>
             </div>
-            <div class="col-lg-6 mb-5 mb-lg-0 ">
-                <div class="cardIngreso ">
-                    <div class="card-body px-4 py-5 color">
-                        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                            <h2 class="Textobohemia">Crea Una Cuenta</h2>
-                            <hr />
-                            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                            <div class="form-floating mb-3">
-                                <input asp-for="Input.Email" class="form-control" autocomplete="username"
-                                    aria-required="true" placeholder="correo@ejemplo.com" />
-                                <label asp-for="Input.Email">Correo</label>
-                                <span asp-validation-for="Input.Email" class="text-danger"></span>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input asp-for="Input.Password" class="form-control" autocomplete="new-password"
-                                    aria-required="true" placeholder="contraseña" />
-                                <label asp-for="Input.Password">Contraseña</label>
-                                <span asp-validation-for="Input.Password" class="text-danger"></span>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password"
-                                    aria-required="true" placeholder="contraseña" />
-                                <label asp-for="Input.ConfirmPassword">Confirmar Contraseña</label>
-                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                            </div>
 
-                            <button id="registerSubmit" type="submit"
-                                class="w-100 btn btn-lg btn-primary">Registrarse
-                            </button>
+            <div asp-validation-summary="ModelOnly" class="alert-error show" role="alert"></div>
 
-                            <div class="text-center mt-3">
-                                <p>
-                                    ¿Ya tenés cuenta? <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Iniciá sesión</a>
-                                </p>
-                            </div>
-                        </form>
+            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="login-form" novalidate>
 
-
-
+                <!-- {{-- Email --}} -->
+                <div class="field-group">
+                    <label class="field-label" asp-for="Input.Email">Correo electrónico</label>
+                    <div class="field-wrapper">
+                        <svg class="field-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <input asp-for="Input.Email" class="form-control" autocomplete="username"
+                               placeholder="usuario@ejemplo.com" type="email" aria-required="true" />
                     </div>
+                    <span asp-validation-for="Input.Email" class="field-error" role="alert"></span>
                 </div>
-            </div>
+
+                <!-- {{-- Contraseña --}} -->
+                <div class="field-group">
+                    <label class="field-label" asp-for="Input.Password">Contraseña</label>
+                    <div class="field-wrapper">
+                        <svg class="field-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password"
+                               placeholder="Tu contraseña" type="password" id="password" aria-required="true" />
+                        <button type="button" id="toggle-password" class="toggle-password" aria-label="Mostrar contraseña">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <span asp-validation-for="Input.Password" class="field-error" role="alert"></span>
+                </div>
+
+                <!-- {{-- Confirmar contraseña --}} -->
+                <div class="field-group">
+                    <label class="field-label" asp-for="Input.ConfirmPassword">Confirmar contraseña</label>
+                    <div class="field-wrapper">
+                        <svg class="field-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password"
+                               placeholder="Repetí tu contraseña" type="password" id="confirm-password" aria-required="true" />
+                        <button type="button" id="toggle-confirm-password" class="toggle-password" aria-label="Mostrar contraseña">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <span asp-validation-for="Input.ConfirmPassword" class="field-error" role="alert"></span>
+                </div>
+
+                <!-- {{-- Botón --}} -->
+                <button type="submit" class="btn-login">
+                    <span class="btn-text">Crear cuenta</span>
+                </button>
+
+                <!-- {{-- Link login --}} -->
+                <p class="register-link">
+                    ¿Ya tenés cuenta?
+                    <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Iniciá sesión</a>
+                </p>
+
+            </form>
         </div>
-    </div>
 
+    </main>
 
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
-
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Toggle contraseña
+        document.getElementById("toggle-password")?.addEventListener("click", function () {
+            const input = document.getElementById("password");
+            input.type = input.type === "password" ? "text" : "password";
+        });
+
+        // Toggle confirmar contraseña
+        document.getElementById("toggle-confirm-password")?.addEventListener("click", function () {
+            const input = document.getElementById("confirm-password");
+            input.type = input.type === "password" ? "text" : "password";
+        });
+    </script>
+
 </body>
 </html>
