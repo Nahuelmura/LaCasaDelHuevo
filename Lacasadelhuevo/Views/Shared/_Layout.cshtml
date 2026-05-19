@@ -57,24 +57,49 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index"
+                            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Home">
+                                <i class="fas fa-home me-1"></i>
+                            </a>
+                        </li>    
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Cliente" asp-action="Index"
+                            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clientes">
+                                <i class="fas fa-users me-1"></i>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Cliente" asp-action="Index">Clientes</a>
+                            <a class="nav-link text-dark" asp-controller="Venta" asp-action="Index"
+                            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ventas">
+                                <i class="fas fa-shopping-cart me-1"></i>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Venta" asp-action="Index">Ventas</a>
+                            <a class="nav-link text-dark" asp-controller="Producto" asp-action="Index"
+                            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Productos">
+                                <i class="fas fa-boxes me-1"></i>
+                            </a>    
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Producto" asp-action="Index">Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Informe" asp-action="Index">Informes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Usuario" asp-action="Index">Usuarios</a>
+                            <a class="nav-link text-dark" asp-controller="Informe" asp-action="Index"
+                            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Informes">
+                                <i class="fas fa-chart-bar me-1"></i>
+                            </a>
                         </li>
                     </ul>
+                    @if (User.Identity.IsAuthenticated)
+                        {
+                            <ul class="navbar-nav ms-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Identity">Hola, @User.Identity.Name</a>
+                                </li>
+                                <li class="nav-item">
+                                    <form method="post" asp-area="Identity" asp-page="/Account/Logout" id="logoutForm" class="d-inline">
+                                        <button type="submit" class="nav-link btn btn-link text-dark"><i class="fas fa-arrow-right-from-bracket"></i></button>
+                                    </form>
+                                </li>
+                            </ul>
+                        }
                 </div>
             </div>
         </nav>

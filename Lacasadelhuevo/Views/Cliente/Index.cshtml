@@ -51,25 +51,34 @@
     </div>
 </div>
 
+<div class="pg-card">
+    <p class="pg-section-label">
+        <i class="fas fa-users me-2"></i>Listado de clientes
+    </p>
 
-<div class="">
-    <p class="pg-section-label">Listado de clientes</p>
-    <div class="table-responsive pg-table-scroll">
+    <div class="table-responsive">
         <table class="tbl-productos">
             <thead>
                 <tr>
-                    <th>Nombre</th>
-                    <th>Dirección</th>
-                    <th>Localidad</th>
-                    <th>DNI / CUIT</th>
-                    <th>Teléfono</th>
-                    <th>Email</th>
-                    <th>Acciones</th>
+                    <th><i class="fas fa-user me-2"></i>Nombre</th>
+                    <th><i class="fas fa-map-marker-alt me-2"></i>Dirección</th>
+                    <th><i class="fas fa-city me-2"></i>Localidad</th>
+                    <th><i class="fas fa-id-card me-2"></i>DNI / CUIT</th>
+                    <th><i class="fas fa-phone me-2"></i>Teléfono</th>
+                    <th><i class="fas fa-envelope me-2"></i>Email</th>
+                    <th class="text-center">Acciones</th>
                 </tr>
             </thead>
             <tbody id="clientesTableBody"></tbody>
         </table>
+
+        <div id="tablaVacia" class="text-center py-5 d-none">
+            <i class="fas fa-users fa-3x mb-3" style="color:#334155; opacity:0.5"></i>
+            <p class="fw-semibold" style="color:var(--text-soft)">No hay clientes registrados</p>
+            <p style="font-size:0.9rem; color:#475569">Agregá uno usando el formulario de arriba.</p>
+        </div>
     </div>
+</div>
     <div id="tablaVacia" class="text-center py-5 text-muted d-none">
         <i class="fas fa-users fa-3x mb-3 opacity-25"></i>
         <p class="fw-semibold">No hay clientes registrados</p>

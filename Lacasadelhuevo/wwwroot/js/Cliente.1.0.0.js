@@ -27,18 +27,12 @@ function ListadoCliente(filtro) {
                         <td>${cliente.mail}</td>
                         <td>
                             <div class='d-flex justify-content-center gap-2'>
-                                <button type='button' class='btn-sm ${esActivo ? "btn-outline-success" : "btn-outline-danger"}' 
+                                <button type='button' 
+                                        class='pg-btn-action ${esActivo ? "pg-btn-edit" : "pg-btn-inactive"}' 
                                         onclick='AbrirModalEditar(${cliente.clienteID})'
                                         title='${esActivo ? "Editar cliente" : "Cliente inactivo"}'>
-                                    <i class='fa-solid fa-file-pen'></i>
+                                    <i class='fa-solid fa-pen-to-square'></i>
                                 </button>
-                                ${
-                                  esActivo
-                                    ? ``
-                                    : `<button type='button' class='btn-sm btn-secondary' disabled title='Cliente inactivo'>
-                                           <i class='fa-solid fa-user-xmark'></i>
-                                       </button>`
-                                }
                             </div>
                         </td>
                     </tr>
