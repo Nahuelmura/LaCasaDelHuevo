@@ -1,14 +1,15 @@
 <link rel="stylesheet" href="~/css/Cliente.css" />
 
-<div class="pg-card-split">
-    <div class="pg-sidebar">
-        <div>
-            <h1 class="pg-title">Clientes</h1>
-            <p class="pg-subtitle">Registrá y gestioná tus clientes fácilmente.</p>
-        </div>
-    </div>
+<div class="pg-header">
+    <h1 class="pg-title">Clientes</h1>
+    <p class="pg-subtitle">Registrá y gestioná tus clientes fácilmente.</p>
+</div>
 
-    <div class="pg-form-panel">
+
+
+<div class="pg-card-split">
+ 
+         <div class="pg-form-panel">
         <p class="pg-section-label">Datos del cliente</p>
         <input type="hidden" id="ClienteID" value="0">
         <div class="pg-grid-3">
@@ -36,25 +37,27 @@
                 <label>Email</label>
                 <input type="email" id="email" placeholder="Ej: juan@email.com">
             </div>
-        </div>
-
-        <div style="display:flex; align-items:flex-end; gap:10px; margin-top:12px;">
-            <div class="pg-field" style="flex:1; max-width:300px;">
-                <label>Filtrar por nombre</label>
-                <input type="text" id="filtroNombre" placeholder="Ej: Juan Pérez">
-            </div>
-            <div class="pg-actions" style="margin-top:0;">
+             <div class="pg-actions" style="margin-top:12px;">
                 <button class="btn-secondary" type="button">Cancelar</button>
                 <button class="btn-primary" type="button" onclick="GuardarCliente()">Guardar cliente</button>
             </div>
         </div>
-    </div>
+    </div>      
 </div>
 
 <div class="pg-card">
+<div class="pg-header-row">
     <p class="pg-section-label">
         <i class="fas fa-users me-2"></i>Listado de clientes
     </p>
+     <div  class="pg-form-filter">
+            <div class="pg-field">
+                <label>Filtrar por nombre</label>
+                <input type="text" id="filtroNombre" placeholder="Ej: Juan Pérez">
+            </div>
+           
+    </div>
+</div>
 
     <div class="table-responsive">
         <table class="tbl-productos">

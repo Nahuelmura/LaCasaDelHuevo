@@ -75,13 +75,28 @@ body {
     margin-bottom: 1.25rem;
 }
 
+.pg-header-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:1rem;
+    margin-bottom:1.5rem;
+}
+
+.pg-form-filter
+{
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+
 /* =========================
    GRID
 ========================= */
 .pg-grid-3 {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.7rem;
     margin-bottom: 1.5rem;
 }
 
@@ -95,7 +110,7 @@ body {
 }
 
 .pg-field label {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     color: #f8fafc;
 }
@@ -103,7 +118,7 @@ body {
 .pg-field input,
 .pg-field select {
     height: 48px;
-    padding: 0 1rem;
+    padding: 0 4rem;
     border-radius: 12px;
     border: 1px solid var(--border);
     background: rgba(255,255,255,0.06);
@@ -111,6 +126,7 @@ body {
     font-size: 14px;
     transition: var(--transition);
     outline: none;
+    text-align: center;
 }
 
 .pg-field input::placeholder {
@@ -191,50 +207,168 @@ body {
    TABLA
 ========================= */
 .table-responsive {
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    border: 1px solid var(--border);
+    height: calc(100vh - 250px);
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(255,255,255,0.08);
+
+    background: rgba(15,23,42,.55);
+    backdrop-filter: blur(18px);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.25),
+        inset 0 1px 0 rgba(255,255,255,.04);
 }
 
+/* =========================
+   SCROLLBAR
+========================= */
+.table-responsive::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 999px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+        180deg,
+        rgba(245,158,11,.85),
+        rgba(217,119,6,.85)
+    );
+
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+
+    transition: .25s ease;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+        180deg,
+        rgba(251,191,36,1),
+        rgba(245,158,11,1)
+    );
+}
+
+.table-responsive::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+/* Firefox */
+.table-responsive {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(245,158,11,.8) transparent;
+}
+
+/* =========================
+   TABLE
+========================= */
 .tbl-productos {
     width: 100%;
-
-    border-collapse: collapse;
-    font-size: 0.9rem;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.92rem;
+    color: var(--text);
 }
 
-.tbl-productos thead tr {
-    background: linear-gradient(135deg, #1e293b, #0f172a);
-}
-
+/* =========================
+   HEADER
+========================= */
 .tbl-productos thead th {
-    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    padding: 1rem 1.2rem;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(119, 134, 149, 0.98),
+            rgba(33, 42, 62, 0.98)
+        );
+
+    color: #f8fafc;
+
     font-weight: 800;
-    color: var(--bg-dark);
     text-transform: uppercase;
-    font-size: 13px;
-    letter-spacing: .08em;
-    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    letter-spacing: .12em;
+
+    border-bottom: 1px solid rgba(255,255,255,.08);
+
+    backdrop-filter: blur(12px);
 }
 
+/* Rounded header corners */
+.tbl-productos thead th:first-child {
+    border-top-left-radius: var(--radius-xl);
+}
+
+.tbl-productos thead th:last-child {
+    border-top-right-radius: var(--radius-xl);
+}
+
+/* =========================
+   BODY ROWS
+========================= */
 .tbl-productos tbody tr {
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    transition: var(--transition);
+    transition:
+        background .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
+
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.tbl-productos tbody tr:nth-child(even) {
+    background: rgba(255,255,255,0.015);
 }
 
 .tbl-productos tbody tr:hover {
-    background: rgba(255,255,255,0.04);
+    background: rgba(255,255,255,0.05);
+
+    box-shadow:
+        inset 3px 0 0 var(--primary);
+
+    transform: translateX(2px);
 }
 
+/* =========================
+   CELLS
+========================= */
 .tbl-productos tbody td {
-    padding: 1rem;
+    padding: 1rem 1.2rem;
     color: var(--text-soft);
     vertical-align: middle;
+    white-space: nowrap;
 }
 
+/* =========================
+   SECONDARY ROW
+========================= */
 .tbl-productos tbody tr.table-secondary td {
-    color: #475569;
-    background: rgba(255,255,255,0.02);
+    background:rgba(206, 200, 200, 0.025);
+    color: #64748b;
+}
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+.tbl-productos .btn {
+    border-radius: 12px;
+    transition: .2s ease;
+}
+
+.tbl-productos .btn:hover {
+    transform: translateY(-1px);
 }
 
 /* =========================
@@ -315,16 +449,15 @@ body {
    SPLIT LAYOUT
 ========================= */
 .pg-card-split {
+
     display: grid;
-    grid-template-columns: 260px 1fr;
-    gap: 0;
+
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius-xl);
     backdrop-filter: blur(18px);
     box-shadow: var(--shadow);
     margin-bottom: 1.5rem;
-    overflow: hidden;
 }
 
 .pg-sidebar {
@@ -348,8 +481,26 @@ body {
     color: var(--text-soft);
 }
 
-.pg-form-panel {
-    padding: 2rem;
+
+
+.pg-header {
+
+    margin: 1.5rem;
+    padding: 0 0.5rem;
+    justify-items: center;
+}
+
+.pg-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.pg-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-soft);
+    margin: 0;
 }
 
 /* =========================
