@@ -12,11 +12,10 @@ $("#fechaInicio, #fechaFin").on("change", function () {
   ListadoProducto(filtro);
 });
 
-
 function ListadoProducto(filtro) {
-    let fechaInicio = $("#fechaInicio").val();
-    let fechaFin = $("#fechaFin").val();
-      console.log("Inicio:", fechaInicio, "Fin:", fechaFin);
+  let fechaInicio = $("#fechaInicio").val();
+  let fechaFin = $("#fechaFin").val();
+  console.log("Inicio:", fechaInicio, "Fin:", fechaFin);
 
   $.ajax({
     url: "/Producto/ListadoProducto",
@@ -24,11 +23,9 @@ function ListadoProducto(filtro) {
     dataType: "json",
     data: {
       filtro: filtro,
-         fechaInicio: fechaInicio,
+      fechaInicio: fechaInicio,
       fechaFin: fechaFin,
-    
     },
-    
 
     success: function (ProductosMostrar) {
       listaProductos = ProductosMostrar.productos; // 👈 IMPORTANTE
@@ -40,25 +37,21 @@ function ListadoProducto(filtro) {
             <tr>
               <td>${producto.codigo}</td>
               <td>${producto.descripcion}</td>
-                <td>${producto.observacion}</td>
+              <td>${producto.observacion}</td>
               <td>${producto.cantidad}</td>
-       <td>$ ${formatearNumero(producto.precioCosto)}</td>
-<td>$ ${formatearNumero(producto.precioVenta)}</td>
-                          <td>${producto.fechaIngresostring}</td>
-<td>
-                                 <div class='d-flex justify-content-center gap-2'>
-
-                                <!-- Editar -->
+              <td>$ ${formatearNumero(producto.precioCosto)}</td>
+              <td>$ ${formatearNumero(producto.precioVenta)}</td>
+              <td>${producto.fechaIngresostring}</td>
+              <td>
+                            <div class='d-flex justify-content-center gap-2'>
                                 <button type='button' 
-                                        class='btn-sm ${esActivo ? "btn-outline-success" : "btn-outline-danger"}'
+                                        class='pg-btn-action ${esActivo ? "pg-btn-edit" : "pg-btn-inactive"}' 
                                         onclick='AbrirModalEditar(${producto.productoID})'
                                         title='${esActivo ? "Editar producto" : "Producto inactivo"}'>
-                                    <i class='fa-solid fa-file-pen'></i>
+                                    <i class='fa-solid fa-pen-to-square'></i>
                                 </button>
-
-                            
                             </div>
-                        </td>
+                        </td>                
             </tr>
           `;
       });
@@ -114,7 +107,7 @@ function GuardarProducto() {
   //   modal
   if ($("#modalEditarProducto").hasClass("show")) {
     producto = {
-  productoID: parseInt($("#ProductoIDModal").val()),
+      productoID: parseInt($("#ProductoIDModal").val()),
       codigo: $("#codigoModal").val(),
       descripcion: $("#descripcionModal").val(),
       observacion: $("#observacionModal").val(),
@@ -142,7 +135,7 @@ function GuardarProducto() {
   let precioVenta = limpiarNumero(producto.precioVenta);
 
   producto.precioCosto = precioCosto;
-producto.precioVenta = precioVenta;
+  producto.precioVenta = precioVenta;
 
   if (precioCosto >= precioVenta) {
     Swal.fire({
@@ -298,7 +291,6 @@ function formatearNumero(num) {
     maximumFractionDigits: 2,
   });
 }
-
 
 $("#precioCosto, #precioVenta").on("input", function () {
   let valor = $(this).val();

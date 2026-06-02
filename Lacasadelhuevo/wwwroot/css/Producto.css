@@ -1,253 +1,499 @@
-/* ── Wrap ── */
-.pg-wrap {
-    padding: 1.5rem 0;
+/* =========================
+   VARIABLES
+========================= */
+:root {
+    --primary: #f59e0b;
+    --primary-dark: #d97706;
+    --bg-dark: #0f172a;
+    --bg-card: rgba(255,255,255,0.06);
+    --text: #ffffff;
+    --text-soft: #cbd5e1;
+    --border: rgba(255,255,255,0.12);
+    --shadow: 0 10px 40px rgba(0,0,0,.35);
+    --radius-xl: 24px;
+    --radius-lg: 16px;
+    --transition: .25s ease;
 }
 
-/* ── Card con franja lateral ── */
-.pg-card-split {
-    display: flex;
-    border: 0.5px solid rgba(0, 0, 0, 0.12);
-    border-radius: 14px;
-    overflow: hidden;
-    margin-bottom: 1.25rem;
-    background: #fff;
+/* =========================
+   BODY
+========================= */
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background:
+        radial-gradient(circle at top left, #1e293b 0%, transparent 30%),
+        radial-gradient(circle at bottom right, #7c2d12 0%, transparent 30%),
+        linear-gradient(135deg, #020617, #0f172a);
+    color: var(--text);
+    min-height: 100vh;
 }
 
-/* ── Franja lateral morada ── */
-.pg-sidebar {
-    width: 190px;
-    flex-shrink: 0;
-    background: #EEEDFE;
-    padding: 1.75rem 1.25rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+/* =========================
+   HEADER
+========================= */
+.pg-header {
+    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    justify-items: center;
 }
 
 .pg-title {
-    font-size: 22px;
-    font-weight: 500;
-    color: #3C3489;
-    line-height: 1.2;
-    margin: 0 0 8px;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 4px;
 }
 
 .pg-subtitle {
-    font-size: 12px;
-    color: #534AB7;
-    line-height: 1.6;
+    font-size: 0.95rem;
+    color: var(--text-soft);
     margin: 0;
 }
 
-.pg-sidebar-badge {
-    display: inline-block;
-    background: #7F77DD;
-    color: #EEEDFE;
-    font-size: 11px;
-    font-weight: 500;
-    padding: 5px 12px;
-    border-radius: 20px;
-    margin-top: 2rem;
-    align-self: flex-start;
+/* =========================
+   CARD
+========================= */
+.pg-card-split {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    backdrop-filter: blur(18px);
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
 }
 
-/* ── Panel formulario ── */
+
+.pg-sidebar {
+    background: rgba(245,158,11,.08);
+    border-right: 1px solid var(--border);
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.pg-sidebar .pg-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.pg-sidebar .pg-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-soft);
+    margin: 0;
+}
+
 .pg-form-panel {
-    flex: 1;
-    padding: 1.5rem;
+    padding: 2rem;
+    min-width: 0;
+    width: 100%;
 }
 
+.pg-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(18px);
+    box-shadow: var(--shadow);
+}
+
+/* =========================
+   SECTION LABEL
+========================= */
 .pg-section-label {
-    font-size: 10px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 900;
     text-transform: uppercase;
     letter-spacing: .1em;
-    color: #bbb;
-    margin: 0 0 1rem;
-}
-
-.pg-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 12px;
+    color: var(--primary);
     margin-bottom: 1.25rem;
 }
 
+/* =========================
+   GRID
+========================= */
+.pg-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+
+/* =========================
+   FIELDS
+========================= */
 .pg-field {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-}
-
-.pg-field label,
-.pg-label {
-    font-size: 12px;
-    color: #555;
-    font-weight: 500;
-    display: block;
-    margin-bottom: 3px;
-}
-
-.pg-field input,
-.pg-input {
-    font-size: 13px !important;
-    padding: 7px 10px;
-    border-radius: 8px !important;
-    border: 0.5px solid rgba(0, 0, 0, 0.15) !important;
-    background: #f8f8f8 !important;
-    outline: none;
-    width: 100%;
-    color: #111;
-}
-
-.pg-field input:focus,
-.pg-input:focus {
-    border-color: #7F77DD !important;
-    box-shadow: 0 0 0 2px rgba(127, 119, 221, .1) !important;
-}
-
-.pg-actions {
-    display: flex;
     gap: 8px;
-    justify-content: flex-end;
-    padding-top: .75rem;
-    border-top: 0.5px solid rgba(0, 0, 0, 0.08);
 }
 
-/* ── Botones ── */
-.btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 18px;
-    border-radius: 8px;
-    border: none;
-    background: #7F77DD;
-    color: #fff;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.btn-primary:hover {
-    background: #534AB7;
-}
-
-.btn-secondary {
-    padding: 7px 16px;
-    border-radius: 8px;
-    border: 0.5px solid #ddd;
-    background: transparent;
-    color: #666;
-    font-size: 13px;
-    cursor: pointer;
-}
-
-.btn-secondary:hover {
-    background: #f5f5f5;
-}
-
-/* ── Card tabla ── */
-.pg-card {
-    background: #fff;
-    border: 0.5px solid rgba(0, 0, 0, 0.12);
-    border-radius: 12px;
-    padding: 1.25rem;
+.pg-filter-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 1rem;
     margin-bottom: 1.25rem;
 }
 
-/* ── Tabla con scroll ── */
+@media (max-width: 768px) {
+    .pg-filter-row {
+        grid-template-columns: 1fr;
+    }
+}
+.pg-field label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #f8fafc;
+}
+
+.pg-field input,
+.pg-field select {
+    height: 48px;
+    padding: 0 4rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.06);
+    color: white;
+    font-size: 14px;
+    transition: var(--transition);
+    outline: none;
+    text-align: center;
+}
+
+.pg-field input::placeholder,
+.pg-input::placeholder {
+    color: #64748b;
+}
+
+.pg-field input:focus,
+.pg-field select:focus,
+.pg-input:focus {
+    border-color: rgba(245,158,11,.8);
+    background: rgba(255,255,255,0.1);
+    box-shadow: 0 0 0 4px rgba(245,158,11,.15);
+}
+
+.pg-field input:-webkit-autofill,
+.pg-input:-webkit-autofill {
+    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0px 1000px rgba(255,255,255,0.06) inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* =========================
+   ACCIONES
+========================= */
+.pg-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+}
+
+/* =========================
+   BOTONES
+========================= */
+.btn-primary {
+    height: 46px;
+    padding: 0 1.5rem;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary), #fbbf24);
+    color: #111827;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(245,158,11,.35);
+}
+
+.btn-secondary {
+    height: 46px;
+    padding: 0 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.06);
+    color: var(--text-soft);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-secondary:hover {
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+/* =========================
+   TABLA
+========================= */
+.table-responsive {
+    height: calc(100vh - 250px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(15,23,42,.55);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 10px 30px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.04);
+    
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+.table-responsive::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 999px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+        180deg,
+        rgba(245,158,11,.85),
+        rgba(217,119,6,.85)
+    );
+
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+
+    transition: .25s ease;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+        180deg,
+        rgba(251,191,36,1),
+        rgba(245,158,11,1)
+    );
+}
+
+.table-responsive::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+/* Firefox */
+.table-responsive {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(245,158,11,.8) transparent;
+}
+
+
+
+
+
+/* =========================
+   TABLA
+========================= */
 .pg-table-scroll {
     max-height: 420px;
     overflow-y: auto;
-    border-radius: 8px;
-    border: 0.5px solid rgba(0, 0, 0, 0.08);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
 }
 
 .tbl-productos {
     width: 100%;
     border-collapse: collapse;
-    font-size: 13px;
+    font-size: 0.9rem;
 }
 
-.tbl-productos thead th {
-    padding: 8px 12px;
-    font-size: 10px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    color: #aaa;
-    text-align: left;
-    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+.tbl-productos thead tr {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
     position: sticky;
     top: 0;
-    background: #fff;
     z-index: 1;
 }
 
+.tbl-productos thead th {
+    padding: 1rem;
+    font-weight: 600;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: .05em;
+    border-bottom: 1px solid var(--border);
+}
+
+.tbl-productos thead th i {
+    color: var(--primary);
+    opacity: 0.8;
+}
+
 .tbl-productos tbody tr {
-    border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
-    transition: background .1s;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: var(--transition);
 }
 
 .tbl-productos tbody tr:hover {
-    background: #fafafa;
+    background: rgba(255,255,255,0.04);
 }
 
 .tbl-productos tbody td {
-    padding: 10px 12px;
-    color: #222;
+    padding: 1rem;
+    color: var(--text-soft);
+    vertical-align: middle;
 }
 
-/* ── Modal ── */
+.tbl-productos tbody tr.table-secondary td {
+    color: #475569;
+    background: rgba(255,255,255,0.02);
+}
+
+/* =========================
+   MODAL
+========================= */
 .pg-modal-content {
-    border: 0.5px solid rgba(0, 0, 0, 0.12) !important;
-    border-radius: 14px !important;
-    overflow: hidden;
+    background: #0f172a !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-xl) !important;
+    color: var(--text);
 }
 
 .pg-modal-header {
-    border-bottom: 0.5px solid rgba(0, 0, 0, 0.08) !important;
-    padding: .9rem 1.25rem !important;
+    border-bottom: 1px solid var(--border) !important;
+    padding: 1.25rem 1.5rem !important;
 }
 
 .pg-modal-title {
-    font-size: 15px !important;
-    font-weight: 500 !important;
-    margin: 0 !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    color: var(--text) !important;
 }
 
 .pg-modal-footer {
-    border-top: 0.5px solid rgba(0, 0, 0, 0.08) !important;
-    padding: .9rem 1.25rem !important;
+    border-top: 1px solid var(--border) !important;
+    padding: 1rem 1.5rem !important;
     display: flex;
-    gap: 8px;
     justify-content: flex-end;
+    gap: 0.75rem;
 }
 
-/* ── Responsivo ── */
-@media (max-width: 768px) {
+.btn-close {
+    filter: invert(1);
+}
+
+.pg-modal-content input,
+.pg-modal-content select,
+.pg-modal-content input:focus,
+.pg-modal-content select:focus {
+    color: white !important;
+    caret-color: white;
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 12px !important;
+    height: 48px;
+    padding: 0 1rem;
+}
+
+.pg-modal-content input::placeholder {
+    color: #64748b !important;
+}
+
+.pg-modal-content input:-webkit-autofill {
+    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0px 1000px rgba(30,41,59,1) inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.pg-modal-content label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #f8fafc;
+}
+
+/* =========================
+   BOTONES TABLA
+========================= */
+.pg-btn-action {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.06);
+    color: var(--text-soft);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 14px;
+}
+
+.pg-btn-action:hover { transform: scale(1.1); }
+
+.pg-btn-edit { border-color: rgba(34,197,94,.4); color: #22c55e; }
+.pg-btn-edit:hover { background: rgba(34,197,94,.15); border-color: #22c55e; }
+
+.pg-btn-danger { border-color: rgba(239,68,68,.4); color: #ef4444; }
+.pg-btn-danger:hover { background: rgba(239,68,68,.15); border-color: #ef4444; }
+
+.pg-btn-inactive { border-color: rgba(239,68,68,.4); color: #ef4444; }
+.pg-btn-disabled { border-color: rgba(255,255,255,0.08); color: #334155; cursor: not-allowed; opacity: 0.5; }
+
+/* =========================
+   SWITCH
+========================= */
+.form-check-input:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+/* =========================
+   ESTADO VACÍO
+========================= */
+#tablaVacia {
+    color: var(--text-soft);
+    padding: 3rem;
+    text-align: center;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 992px) {
     .pg-card-split {
+        grid-template-columns: 1fr;
+    }
+    .pg-sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .pg-grid-3 {
+        grid-template-columns: 1fr;
+    }
+    .pg-card {
+        padding: 1.25rem;
+    }
+    .pg-actions {
         flex-direction: column;
     }
-
-    .pg-sidebar {
-        width: 100%;
-        flex-direction: row;
-        align-items: center;
-        padding: 1.25rem;
-        gap: 1rem;
-    }
-
-    .pg-sidebar-badge {
-        margin-top: 0;
-        align-self: center;
-    }
-}
-
-
-.btn-primary,
-.btn-secondary {
-    height: 40px;
-    font-size: 12px;
 }

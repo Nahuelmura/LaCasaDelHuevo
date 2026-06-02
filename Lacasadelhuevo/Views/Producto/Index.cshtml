@@ -2,74 +2,57 @@
     ViewData["Title"] = "Productos";
 }
 
-<div class="">
+<div class="pg-header">
+    <h1 class="pg-title">Productos</h1>
+    <p class="pg-subtitle">Registrá y gestioná tu inventario de forma rápida.</p>
+</div>
 
-    <!-- ── CARD PRINCIPAL: franja lateral + formulario ── -->
-    <div class="pg-card-split">
-        <div class="pg-sidebar">
-            <div>
-                <h1 class="pg-title">Productos</h1>
-                <p class="pg-subtitle">Registrá y gestioná tu inventario de forma rápida.</p>
-            </div>
-          
-        </div>
+                <div class="">
 
-        <div class="pg-form-panel">
-            <p class="pg-section-label">Datos del producto</p>
-            <input type="hidden" id="ProductoID" value="0">
-            <div class="pg-grid">
-                <div class="pg-field">
-                    <label>Código</label>
-                    <input type="text" id="codigo" class="soloNumeros" placeholder="Ej: P001">
-                </div>
-                <div class="pg-field">
-                    <label>Descripción</label>
-                    <input type="text" id="descripcion" placeholder="Ej: Producto 1">
-                </div>
-                <div class="pg-field">
-                    <label>Observación</label>
-                    <input type="text" id="observacion" placeholder="Ej: Observación del producto">
-                </div>
-                <div class="pg-field">
-                    <label>Cantidad</label>
-                    <input type="number" id="cantidad" placeholder="10">
-                </div>
-                <div class="pg-field">
-                    <label>Precio de costo</label>
-                    <input type="number" id="precioCosto" placeholder="100.00">
-                </div>
-                <div class="pg-field">
-                    <label>Precio de venta</label>
-                    <input type="number" id="precioVenta" placeholder="200.00">
-                </div>
-                <div class="pg-field">
-                    <label>Fecha de ingreso</label>
-                    <input type="date" id="fechaIngreso">
-                </div>
+                    <!-- ── CARD PRINCIPAL: franja lateral + formulario ── -->
+                    <div class="pg-card-split">
 
-                 <div class="pg-actions">
-                    <button class="btn-secondary mt-2" type="button">Cancelar</button>
-                    <button class="btn-primary mt-2" type="button" onclick="GuardarProducto()">Guardar producto</button>
-            </div>
-            </div>
-
-            <!-- 👇 NUEVA FILA ABAJO -->
-            <div class="row mt-3">
-                <div class="col-md-4">
-                    <label class="pg-label">Filtrar por nombre</label>
-                    <input type="text" class="pg-input form-control" id="filtroNombreModal"
-                           placeholder="Buscar por nombre">
+                        <div class="pg-form-panel">
+                            <p class="pg-section-label">Datos del producto</p>
+                            <input type="hidden" id="ProductoID" value="0">
+                            <div class="pg-grid-3">
+                    <div class="pg-field">
+                        <label>Código</label>
+                        <input type="text" id="codigo" class="soloNumeros" placeholder="Ej: P001">
+                    </div>
+                    <div class="pg-field">
+                        <label>Descripción</label>
+                        <input type="text" id="descripcion" placeholder="Ej: Producto 1">
+                    </div>
+                    <div class="pg-field">
+                        <label>Observación</label>
+                        <input type="text" id="observacion" placeholder="Ej: Observación del producto">
+                    </div>
+                    <div class="pg-field">
+                        <label>Cantidad</label>
+                        <input type="number" id="cantidad" placeholder="10">
+                    </div>
+                    <div class="pg-field">
+                        <label>Precio de costo</label>
+                        <input type="number" id="precioCosto" placeholder="100.00">
+                    </div>
+                    <div class="pg-field">
+                        <label>Precio de venta</label>
+                        <input type="number" id="precioVenta" placeholder="200.00">
+                    </div>
+                    <div class="pg-field">
+                        <label>Fecha de ingreso</label>
+                        <input type="date" id="fechaIngreso">
+                    </div>
                 </div>
 
-                <div class="col-md-4">
-                    <label class="pg-label">Filtrar por fecha ingreso desde</label>
-                    <input type="date" class="pg-input form-control" id="fechaInicio">
+                <!-- {{-- Botones FUERA del grid --}} -->
+                <div class="pg-actions">
+                    <button class="btn-secondary" type="button">Cancelar</button>
+                    <button class="btn-primary" type="button" onclick="GuardarProducto()">Guardar producto</button>
                 </div>
-                <div class="col-md-4">
-                    <label class="pg-label">Filtrar por fecha ingreso hasta</label>
-                    <input type="date" class="pg-input form-control" id="fechaFin">
-                </div>
-            </div>
+
+           
            
         </div>
     </div>
@@ -140,27 +123,50 @@
     </div>
 
 
-    <!-- ── TABLA ── -->
-    <div class="">
-        <p class="pg-section-label">Listado de productos</p>
-        <div class="table-responsive pg-table-scroll">
-            <table class="tbl-productos">
-                <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Descripción</th>
-                        <th>Observación</th>
-                        <th>Cantidad</th>
-                        <th>Precio de costo</th>
-                        <th>Precio de venta</th>
-                        <th>Fecha de ingreso</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody-producto"></tbody>
-            </table>
+   <div class="pg-card">
+    <div class="pg-header-row">
+    <p class="pg-section-label">
+        <i class="fas fa-users me-2"></i>Listado de clientes
+    </p>
+
+        <div class="pg-filter-row">
+            <div class="pg-field">
+                <label class="pg-label">Filtrar por nombre</label>
+                <input type="text" class="pg-input" id="filtroNombreModal" placeholder="Buscar por nombre">
+            </div>
+            <div class="pg-field">
+                <label class="pg-label">Fecha desde</label>
+                <input type="date" class="pg-input" id="fechaInicio">
+            </div>
+            <div class="pg-field">
+                <label class="pg-label">Fecha hasta</label>
+                <input type="date" class="pg-input" id="fechaFin">
+            </div>
         </div>
     </div>
+        <div class="table-responsive">
+    <table class="tbl-productos">
+        <thead>
+            <tr>
+                <th><i class="fas fa-barcode me-2"></i>Código</th>
+                <th><i class="fas fa-box me-2"></i>Descripción</th>
+                <th><i class="fas fa-comment me-2"></i>Observación</th>
+                <th><i class="fas fa-cubes me-2"></i>Cantidad</th>
+                <th><i class="fas fa-tag me-2"></i>Precio costo</th>
+                <th><i class="fas fa-dollar-sign me-2"></i>Precio venta</th>
+                <th><i class="fas fa-calendar me-2"></i>Fecha ingreso</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tbody-producto"></tbody>
+    </table>
 
+    <div id="tablaVaciaProducto" class="text-center py-5 d-none">
+        <i class="fas fa-box-open fa-3x mb-3" style="color:#334155; opacity:0.5"></i>
+        <p class="fw-semibold" style="color:var(--text-soft)">No hay productos registrados</p>
+        <p style="font-size:0.9rem; color:#475569">Agregá uno usando el formulario de arriba.</p>
+    </div>
+</div>
 </div>
 
 @section Scripts {
