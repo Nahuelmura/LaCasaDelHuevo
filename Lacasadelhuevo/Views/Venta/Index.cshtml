@@ -2,10 +2,7 @@
     ViewData["Title"] = "Ventas";
 }
 
-
-
 <link rel="stylesheet" href="~/css/Venta.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
 <div class="container-fluid px-4 py-4">
 
@@ -15,132 +12,111 @@
             <p class="text-muted mb-0">Gestioná las ventas de forma completa y eficiente.</p>
         </div>
     </div>  
+    
     <div class="pg-card">
-        <p class="pg-section-label"><i class="fas fa-plus text-primary"></i>Nueva venta</p>
-        <input type="hidden" id="VentaID" value="0">
-        <div class="pg-grid">
+    <p class="pg-section-label"><i class="fas fa-plus text-primary me-2"></i>Nueva venta</p>
+    <input type="hidden" id="VentaID" value="0">
 
-            <!-- 🔎 CLIENTE -->
-            <div class="pg-field position-relative">
-                <!-- BUSCADOR DE CLIENTE -->
-                <div>
-                      
-                    <div>
-                        <div id="buscador-wrapper" class="position-relative">
-                            <label class="form-label fw-semibold">Buscar por nombre</label>
-                            <input type="text" id="buscadorCliente" class="form-control"
-                                   placeholder="Escribí el nombre del cliente..." autocomplete="off" />
+    <div class="pg-grid-3">
 
-                            <!-- Campo oculto con el ID seleccionado -->
-                            <input type="hidden" id="clienteId" />
-
-                            <!-- Dropdown de resultados -->
-                            <ul id="resultadosCliente" class="list-group position-absolute w-100 shadow z-3 d-none"
-                                style="top: 100%; max-height: 260px; overflow-y: auto;">
-                            </ul>
-                        </div>
-
-                        <!-- Info del cliente seleccionado -->
-                        <div id="clienteInfo" class="alert alert-success mt-3 d-none">
-                            <div class="row g-2">
-                                <div class="col-md-6">
-                                    <strong>Nombre:</strong> <span id="infoNombre"></span>
-                                </div>
-                                  
-                            </div>
-                        </div>
-                    </div>
-
-                
-
-                </div>
-
+        <!-- {{-- CLIENTE --}} -->
+        <div class="pg-field position-relative">
+            <div id="buscador-wrapper" class="position-relative">
+                <label class="form-label fw-semibold">Cliente</label>
+                <input type="text" id="buscadorCliente" class="form-control"
+                       placeholder="Escribí el nombre del cliente..." autocomplete="off" />
+                <input type="hidden" id="clienteId" />
+                <ul id="resultadosCliente" class="list-group position-absolute w-100 shadow z-3 d-none"
+                    style="top: 100%; max-height: 260px; overflow-y: auto;"></ul>
             </div>
-
-            <!-- 📦 PRODUCTO -->
-            <div class="pg-field position-relative">
-                <label>Producto</label>
-
-                <input type="text" id="buscadorProducto" class="form-control" placeholder="Buscar producto..."
-                       autocomplete="off">
-
-                <input type="hidden" id="productoId">
-
-                <ul id="resultadosProducto" class="list-group shadow z-3 d-none"
-                    style="max-height: 200px; overflow-y: auto;">
-                </ul>
+            <div id="clienteInfo" class="mt-2 d-none" style="font-size:0.85rem; color:var(--primary)">
+                <i class="fas fa-check-circle me-1"></i><span id="infoNombre"></span>
             </div>
-
-            <!-- 📊 STOCK -->
-            <div class="pg-field">
-                <label>Stock</label>
-                <input type="number" id="stockDisponible" readonly>
-            </div>
-
-            <!-- 🔢 CANTIDAD -->
-            <div class="pg-field">
-                <label>Cantidad</label>
-                <input type="number" id="cantidad" min="1">
-            </div>
-
-            <!-- 💲 PRECIO -->
-            <div class="pg-field">
-                <label>Precio</label>
-                <input type="number" id="precioUnitario" step="0.01">
-            </div>
-
-            <!-- 💰 TOTAL -->
-            <div class="pg-field">
-                <label>Total</label>
-                <input type="number" id="total" readonly>
-            </div>
-
-        </div>
-        <div class="pg-actions">
-            <button class="btn-secondary" type="button">Cancelar</button>
-            <button class="btn-primary" type="button" onclick="AgregarItemVenta()">
-                <i class="fa-solid fa-plus me-1"></i>Agregar a venta
-            </button>
         </div>
 
-
-        <div class="pg-card">
-    <p class="pg-section-label"><i class="fas fa-list text-primary"></i>Items de la venta</p>
-    <div class="table-responsive mt-2">
-        <table class="table table-hover align-middle mb-0">
-            <thead class="table-dark">
-                <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio Unitario</th>
-                    <th>Total</th>
-                    <th class="text-center">Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="itemsVentaBody"></tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="3" class="text-end fw-bold">Total general:</td>
-                    <td class="fw-bold text-success" id="totalGeneral">$0.00</td>
-                    <td></td>
-                </tr>
-            </tfoot>
-        </table>
-        <div id="tablaVentaVacia" class="text-center py-4 text-muted">
-            <i class="fas fa-shopping-cart fa-2x mb-2 opacity-25"></i>
-            <p>No hay items agregados aún.</p>
+        <!-- {{-- PRODUCTO --}} -->
+        <div class="pg-field position-relative" id="buscador-producto-wrapper">
+            <label>Producto</label>
+            <input type="text" id="buscadorProducto" class="form-control"
+                   placeholder="Buscar producto..." autocomplete="off">
+            <input type="hidden" id="productoId">
+            <ul id="resultadosProducto" class="list-group shadow z-3 d-none"
+                style="max-height: 200px; overflow-y: auto;"></ul>
         </div>
+
+        <!-- {{-- STOCK --}} -->
+        <div class="pg-field">
+            <label>Stock disponible</label>
+            <input type="number" id="stockDisponible" readonly>
+        </div>
+
+        <!-- {{-- CANTIDAD --}} --> 
+        <div class="pg-field">
+            <label>Cantidad</label>
+            <input type="number" id="cantidad" min="1">
+        </div>
+
+        <!-- {{-- PRECIO --}} -->
+        <div class="pg-field">
+            <label>Precio unitario</label>
+            <input type="number" id="precioUnitario" step="0.01">
+        </div>
+
+        <!-- {{-- TOTAL --}} -->
+        <div class="pg-field">
+            <label>Total</label>
+            <input type="number" id="total" readonly>
+        </div>
+
     </div>
 
-    <div class="d-flex justify-content-end gap-2 mt-3">
-        <button class="btn btn-outline-danger" type="button" onclick="CancelarVenta()">
-            <i class="fa-solid fa-trash me-1"></i>Cancelar venta
+    <div class="pg-actions">
+        <button class="btn-secondary" type="button" onclick="LimpiarFormularioAgregarItems()">
+            <i class="fa-solid fa-xmark me-1"></i>Limpiar
         </button>
-        <button class="btn btn-success" type="button" onclick="ConfirmarVenta()">
-            <i class="fa-solid fa-check me-1"></i>Confirmar venta
+        <button class="btn-primary" type="button" onclick="AgregarItemVenta()">
+            <i class="fa-solid fa-plus me-1"></i>Agregar a venta
         </button>
     </div>
 </div>
+
+<div class="venta-tabla-wrap table-responsive">
+    <table class="tbl-productos">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Total</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="itemsVentaBody"></tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-end fw-bold" style="color:var(--text-soft)">Total general:</td>
+                <td class="fw-bold" id="totalGeneral" style="color:var(--primary)">$0.00</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div id="tablaVentaVacia" class="text-center py-3" style="color:var(--text-soft)">
+        <i class="fas fa-shopping-cart fa-2x mb-2 opacity-25"></i>
+        <p style="font-size:0.9rem">No hay items agregados aún.</p>
+    </div>
+    <div>
+        
+        <div class="d-flex justify-content-end gap-2 mt-3">
+    <button class="btn-cancelar-venta" type="button" onclick="CancelarVenta()">
+        <i class="fa-solid fa-xmark me-1"></i>Cancelar venta
+    </button>
+    <button class="btn-success" type="button" onclick="ConfirmarVenta()">
+        <i class="fa-solid fa-check me-1"></i>Finalizar venta
+    </button>
+</div>
+
+</div>
+
 
     </div>
     <div class="pg-card">
@@ -165,6 +141,6 @@
     </div>
 </div>
 
-<script src="~/js/Venta.1.0.0.js"></script>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+@section Scripts {
+    <script src="~/js/Venta.1.0.0.js"></script>
+}

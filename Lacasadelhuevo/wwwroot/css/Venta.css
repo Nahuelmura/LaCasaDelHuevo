@@ -1,7 +1,179 @@
-#sugerenciasClientes {
+/* =========================
+   VENTA - ESTILOS ESPECÍFICOS
+========================= */
+
+/* Buscador de cliente y producto */
+#resultadosCliente,
+#resultadosProducto {
+    position: absolute;
+    width: 100%;
     max-height: 200px;
     overflow-y: auto;
-    border: 1px solid #ccc;
+    background: #1e293b;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    z-index: 999;
+    list-style: none;
+    padding: 0;
+    margin-top: 4px;
+}
+
+#resultadosCliente .list-group-item,
+#resultadosProducto .list-group-item {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: var(--text-soft);
+    cursor: pointer;
+    padding: 0.75rem 1rem;
+    transition: var(--transition);
+}
+
+#resultadosCliente .list-group-item:hover,
+#resultadosProducto .list-group-item:hover {
+    background: rgba(245,158,11,.1);
+    color: var(--primary);
+}
+
+/* Info cliente seleccionado */
+#clienteInfo {
+    background: rgba(34,197,94,.08);
+    border: 1px solid rgba(34,197,94,.2);
+    border-radius: 12px;
+    color: var(--text-soft);
+    padding: 0.75rem 1rem;
+}
+
+/* Total general */
+#totalGeneral {
+    color: var(--primary);
+    font-size: 1.1rem;
 }
 
 
+
+/* Botones confirmar/cancelar venta */
+.btn-confirmar-venta {
+    height: 46px;
+    padding: 0 1.5rem;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #181a18, #16a34a);
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-confirmar-venta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(34,197,94,.35);
+}
+
+.btn-cancelar-venta {
+    height: 46px;
+    padding: 0 1.5rem;
+    border: 1px solid rgba(239,68,68,.4);
+    border-radius: 12px;
+    background: rgba(239,68,68,.08);
+    color: #ef4444;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-cancelar-venta:hover {
+    background: rgba(239,68,68,.15);
+    transform: translateY(-2px);
+}
+
+/* =========================
+   GRID
+========================= */
+.pg-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.7rem;
+    margin-bottom: 1.5rem;
+}
+
+/* En Venta.css */
+#itemsVentaBody:empty + tfoot,
+#tablaVentaVacia {
+    display: block;
+}
+
+.venta-tabla-wrap {
+    min-height: 280px;
+    max-height: 280px;
+    overflow-y: auto;
+    transition: max-height 0.4s ease;
+}
+
+.venta-tabla-wrap.expandido {
+    max-height: 500px;
+}
+
+.table{
+    color: var(--text)!important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(246, 238, 238, 0.934);
+}
+
+.form-control:focus {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text)!important;
+}
+
+.btn-success {
+    height: 46px;
+    padding: 0 1.5rem;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(34,197,94,.35);
+}
+
+.btn-cancelar-venta {
+    height: 46px;
+    padding: 0 1.5rem;
+    border: 1px solid rgba(239,68,68,.4);
+    border-radius: 12px;
+    background: rgba(239,68,68,.08);
+    color: #ef4444;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-cancelar-venta:hover {
+    background: rgba(239,68,68,.15);
+    transform: translateY(-2px);
+}

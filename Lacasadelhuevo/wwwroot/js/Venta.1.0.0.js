@@ -75,33 +75,31 @@ let itemsVenta = []; // lista temporal de items
 function AgregarItemVenta() {
     const clienteId = $("#clienteId").val();
     const productoId = $("#productoId").val();
-    const descripcion = $("#productoId option:selected").text();
+    const descripcion = productoSeleccionado?.descripcion || "";
+    const observacion = productoSeleccionado?.observacion || "";
     const cantidad = parseFloat($("#cantidad").val());
     const precioUnitario = parseFloat($("#precioUnitario").val());
     const total = parseFloat($("#total").val());
     const stock = parseFloat($("#stockDisponible").val());
 
-    // Validaciones
     if (!clienteId) return Swal.fire({ icon: "warning", title: "Atención", text: "Seleccioná un cliente." });
     if (!productoId) return Swal.fire({ icon: "warning", title: "Atención", text: "Seleccioná un producto." });
     if (!cantidad || cantidad <= 0) return Swal.fire({ icon: "warning", title: "Atención", text: "Ingresá una cantidad válida." });
     if (cantidad > stock) return Swal.fire({ icon: "warning", title: "Atención", text: `Stock insuficiente. Disponible: ${stock}` });
     if (!precioUnitario || precioUnitario <= 0) return Swal.fire({ icon: "warning", title: "Atención", text: "El precio unitario es inválido." });
 
-    // Verificar si el producto ya está en la lista
     const itemExistente = itemsVenta.find(i => i.productoId == productoId);
-    if (itemExistente) {
-        return Swal.fire({ icon: "warning", title: "Atención", text: "Este producto ya fue agregado." });
-    }
+    if (itemExistente) return Swal.fire({ icon: "warning", title: "Atención", text: "Este producto ya fue agregado." });
 
-    // Agregar a la lista
     itemsVenta.push({
         productoId: productoId,
         descripcion: descripcion,
+        observacion: observacion, // ← agregado
         cantidad: cantidad,
         precioUnitario: precioUnitario,
         total: total
     });
+
     LimpiarFormularioAgregarItems();
     RenderizarItemsVenta();
 }
@@ -120,7 +118,7 @@ function RenderizarItemsVenta() {
         totalGeneral += item.total;
         html += `
             <tr>
-                <td>${item.descripcion}</td>
+                <td>${item.descripcion} ${item.observacion}</td>
                 <td>${item.cantidad}</td>
                 <td>$${item.precioUnitario.toFixed(2)}</td>
                 <td>$${item.total.toFixed(2)}</td>
@@ -242,16 +240,18 @@ function ListadoVenta() {
 
 
 function LimpiarFormularioAgregarItems() {
-    $("#productoId").val("");
-    $("#cantidad").val("");
+    $("#buscadorProducto").val("");
     $("#precioUnitario").val("");
     $("#stockDisponible").val("");
+    $("#cantidad").val("");
     $("#total").val("");
 }
 
 function LimpiarFormularioItem() {
     $("#clienteId").val("");
     $("#productoId").val("");
+    $("#buscadorCliente").val("");
+    $("#buscadorProducto").val("");
     $("#cantidad").val("");
     $("#precioUnitario").val("");
     $("#stockDisponible").val("");
