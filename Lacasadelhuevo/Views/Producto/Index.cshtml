@@ -48,7 +48,7 @@
 
                 <!-- {{-- Botones FUERA del grid --}} -->
                 <div class="pg-actions">
-                    <button class="btn-secondary" type="button">Cancelar</button>
+                    <button class="btn-secondary" type="button" onclick="LimpiarFormulario()">Cancelar</button>
                     <button class="btn-primary" type="button" onclick="GuardarProducto()">Guardar producto</button>
                 </div>
 
@@ -106,11 +106,14 @@
                             <input type="date" class="pg-input form-control" id="fechaIngresoModal">
                         </div>
                     </div>
-                    <div class="form-check form-switch mt-3">
-                        <input class="form-check-input" type="checkbox" id="estadoProductoModal">
-                        <label id="estadoProductoLabel"
-                               class="form-check-label fw-bold ms-2 text-success">Activo</label>
-                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="estadoProductoModal">
+                        <span class="slider"></span>
+                    </label>
+
+                    <label for="estadoProductoModal" id="estadoProductoLabel">
+                        Activo
+                    </label>
                 </div>
 
                 <div class="modal-footer pg-modal-footer">

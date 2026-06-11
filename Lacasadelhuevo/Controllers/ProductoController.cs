@@ -58,7 +58,8 @@ public class ProductoController : Controller
         }
 
         var productos = query
-            .OrderBy(p => Convert.ToInt32(p.Codigo))
+            .OrderBy(p => p.Eliminado)
+                .ThenBy(p => Convert.ToInt32(p.Codigo))
             .ToList();
 
         var ProductosMostrar = productos.Select(p => new ProductoVista
@@ -115,8 +116,8 @@ public class ProductoController : Controller
                     var nuevoProducto = new Producto
                     {
                         Codigo = producto.Codigo,
-                        Descripcion = producto.Descripcion,
-                        Observacion = producto.Observacion,
+                        Descripcion = producto.Descripcion.ToUpper(),
+                        Observacion = producto.Observacion.ToUpper(),
                         Cantidad = producto.Cantidad,
                         PrecioCosto = producto.PrecioCosto,
                         PrecioVenta = producto.PrecioVenta,
@@ -148,8 +149,8 @@ public class ProductoController : Controller
                     if (existeProducto == 0)
                     {
                         editarProducto.Codigo = producto.Codigo;
-                        editarProducto.Descripcion = producto.Descripcion;
-                        editarProducto.Observacion = producto.Observacion;
+                        editarProducto.Descripcion = producto.Descripcion.ToUpper();
+                        editarProducto.Observacion = producto.Observacion.ToUpper();
                         editarProducto.Cantidad = producto.Cantidad;
                         editarProducto.PrecioCosto = producto.PrecioCosto;
                         editarProducto.PrecioVenta = producto.PrecioVenta;

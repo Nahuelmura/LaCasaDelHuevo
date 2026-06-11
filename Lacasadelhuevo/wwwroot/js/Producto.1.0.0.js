@@ -195,7 +195,7 @@ function GuardarProducto() {
         timer: 2000,
         showConfirmButton: false,
       });
-
+      LimpiarFormulario();
       ListadoProducto();
 
       if ($("#modalEditarProducto").hasClass("show")) {
@@ -301,3 +301,14 @@ $("#precioCosto, #precioVenta").on("input", function () {
 
   $(this).val(valor);
 });
+
+
+function LimpiarFormulario() {
+  $("#ProductoID").val("");
+  $("#codigo").val("");
+  $("#descripcion").val("");
+  $("#observacion").val("");
+  $("#precioCosto").val("");
+  $("#precioVenta").val("");
+  $("#cantidad").val("");
+}

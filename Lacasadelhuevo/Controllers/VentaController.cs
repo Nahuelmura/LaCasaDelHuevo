@@ -189,4 +189,25 @@ public class VentaController : Controller
 
         return Json(new { productos });
     }
+
+
+    [HttpGet]
+    public JsonResult VentasPorDia()
+    {
+        var hoy = DateTime.Now;
+        var primerDiaMes = new DateTime(hoy.Year, hoy.Month, 1);
+
+        var ventas = _context.Ventas
+            .Where(v => v.FechaVenta >= primerDiaMes && v.FechaVenta <= hoy)
+            .GroupBy(v => v.FechaVenta.Day)
+            .Select(g => new {
+                dia = g.Key,
+                total = g.Sum(v => v.Total)
+            })
+            .OrderBy(v => v.dia)
+            .ToList();
+
+        return Json(new { ventas });
+    }
 }
+

@@ -2,3 +2,134 @@
     ViewData["Title"] = "Home Page";
 }
 
+<link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" />
+
+<div class="pg-wrap">
+
+    <!-- {{-- HEADER --}} -->
+    <div class="pg-header">
+        <h1 class="pg-title"><i class="fas fa-home me-2"></i>Panel principal</h1>
+        <p class="pg-subtitle">Bienvenido al sistema de gestión de La Casa del Huevo.</p>
+    </div>
+
+    <!-- {{-- ACCESOS RÁPIDOS --}} -->
+    <div class="accesos-grid">
+
+        <a asp-controller="Cliente" asp-action="Index" class="acceso-card">
+            <div class="acceso-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="acceso-info">
+                <h3>Clientes</h3>
+                <p>Registrá y gestioná tus clientes</p>
+            </div>
+            <i class="fas fa-arrow-right acceso-arrow"></i>
+        </a>
+
+        <a asp-controller="Producto" asp-action="Index" class="acceso-card">
+            <div class="acceso-icon">
+                <i class="fas fa-box"></i>
+            </div>
+            <div class="acceso-info">
+                <h3>Productos</h3>
+                <p>Administrá tu inventario de productos</p>
+            </div>
+            <i class="fas fa-arrow-right acceso-arrow"></i>
+        </a>
+
+        <a asp-controller="Venta" asp-action="Index" class="acceso-card">
+            <div class="acceso-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="acceso-info">
+                <h3>Ventas</h3>
+                <p>Registrá y consultá las ventas</p>
+            </div>
+            <i class="fas fa-arrow-right acceso-arrow"></i>
+        </a>
+
+    </div>
+</div>
+
+
+<!-- {{-- GRÁFICO VENTAS DEL MES --}} -->
+<div class="acceso-card-full mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h3 class="pg-section-label mb-0">
+                <i class="fas fa-chart-line me-2"></i>Ventas del mes
+            </h3>
+            <p style="font-size:0.85rem; color:var(--text-soft); margin:0">
+                @DateTime.Now.ToString("MMMM yyyy", new System.Globalization.CultureInfo("es-AR"))
+            </p>
+        </div>
+    </div>
+    <canvas id="graficoVentas" height="70"></canvas>
+</div>
+
+
+@section Scripts {
+<script>
+    fetch('/Venta/VentasPorDia')
+        .then(res => res.json())
+        .then(data => {
+
+            const diasDelMes = new Date(
+                new Date().getFullYear(),
+                new Date().getMonth() + 1, 0
+            ).getDate();
+
+            // Armar array con todos los días del mes
+            const labels = Array.from({ length: diasDelMes }, (_, i) => i + 1);
+            const totales = labels.map(dia => {
+                const venta = data.ventas.find(v => v.dia === dia);
+                return venta ? venta.total : 0;
+            });
+
+            const ctx = document.getElementById('graficoVentas').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels.map(d => `${d}`),
+                    datasets: [{
+                        label: 'Ventas ($)',
+                        data: totales,
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245,158,11,0.1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#f59e0b',
+                        pointRadius: 4,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#cbd5e1' }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => `$${ctx.parsed.y.toFixed(2)}`
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: '#64748b' },
+                            grid: { color: 'rgba(255,255,255,0.05)' }
+                        },
+                        y: {
+                            ticks: {
+                                color: '#64748b',
+                                callback: val => `$${val}`
+                            },
+                            grid: { color: 'rgba(255,255,255,0.05)' }
+                        }
+                    }
+                }
+            });
+        });
+</script>
+}
