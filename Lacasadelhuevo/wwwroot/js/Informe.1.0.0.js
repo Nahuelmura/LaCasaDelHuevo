@@ -191,9 +191,67 @@ function volverAMeses() {
     cargarVentasAnio();
 }
 
+
+function ListadoVenta() {
+    $.ajax({
+        url: "/Venta/ListaVenta",
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+
+            console.log(response.ventas[0]);
+            let html = "";
+
+            if (response.ventas.length === 0) {
+                html = `<p style="color:var(--text-soft); text-align:center; padding:2rem">No hay ventas registradas.</p>`;
+            }
+
+            $.each(response.ventas, function (index, venta) {
+                const productosHtml = venta.detalles.map(d =>
+                    `<div class="venta-producto">
+                        <span>${d.descripcion} ${d.observacion ?? ''}</span>
+                        <span class="venta-producto-cant">x${d.cantidad} — $${d.precioUnitario.toFixed(2)}</span>
+                    </div>`
+                ).join("");
+
+                html += `
+                    <div class="venta-item">
+                        <div class="venta-header">
+                            <span class="venta-cliente"><i class="fas fa-user me-2"></i>${venta.clienteNombre}</span>
+                            <span class="venta-fecha">${venta.fechaVenta}</span>
+                        </div>
+                        <div class="venta-productos">
+                            ${productosHtml}
+                        </div>
+                        <div class="venta-total">
+                            Total: $${venta.total.toFixed(2)}
+                        </div>
+                    </div>
+                `;
+            });
+
+            $("#listaVentas").html(html);
+        },
+        error: function () {
+            Swal.fire({ icon: "error", title: "Error", text: "No se pudo cargar el listado de ventas." });
+        }
+    });
+}
+
 // ── INIT ──────────────────────────────────────
 window.onload = function () {
     cargarMasVendidos();
     cargarMenosVendidos();
     cargarVentasAnio();
+    ListadoVenta();
+    $(document).ready(function () {
+    $("#filtroClienteVenta").on("input", function () {
+        const texto = $(this).val().toLowerCase();
+
+        $("#listaVentas .venta-item").each(function () {
+            const nombreCliente = $(this).find(".venta-cliente").text().toLowerCase();
+            $(this).toggle(nombreCliente.includes(texto));
+        });
+    });
+});
 };

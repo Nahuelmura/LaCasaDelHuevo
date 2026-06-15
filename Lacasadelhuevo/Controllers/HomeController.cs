@@ -1,9 +1,11 @@
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Lacasadelhuevo.Data;
 using Lacasadelhuevo.Models;
+
 
 namespace Lacasadelhuevo.Controllers;
 
@@ -112,6 +114,34 @@ namespace Lacasadelhuevo.Controllers;
             }
 
             return Json(result.Succeeded);
+        }
+
+        [HttpGet]
+        public JsonResult ResumenHoy()
+        {
+            var hoy = DateTime.Now.Date;
+
+            var ventasHoy = _context.Ventas
+                .Include(v => v.DetallesVentas)
+                    .ThenInclude(d => d.Productos)
+                .Where(v => v.FechaVenta.Date == hoy)
+                .ToList();
+
+            var cantidadVendida = ventasHoy
+                .SelectMany(v => v.DetallesVentas)
+                .Sum(d => d.PrecioUnitario * d.Cantidad);
+
+            var gananciaEstimada = ventasHoy
+                .SelectMany(v => v.DetallesVentas)
+                .Sum(d => (d.PrecioUnitario - (d.Productos != null ? d.Productos.PrecioCosto : 0)) * d.Cantidad);
+
+            var totalVendido = ventasHoy.Sum(v => v.Total);
+
+            return Json(new {
+                cantidadVendida,
+                gananciaEstimada,
+                totalVendido
+            });
         }
         
     }

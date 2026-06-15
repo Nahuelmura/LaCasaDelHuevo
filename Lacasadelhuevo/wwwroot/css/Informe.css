@@ -9,3 +9,101 @@
         grid-template-columns: 1fr;
     }
 }
+
+.venta-item {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    background: rgba(255,255,255,0.02);
+    transition: var(--transition);
+}
+
+.venta-item:hover {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(245,158,11,.2);
+}
+
+.venta-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.venta-cliente {
+    font-weight: 700;
+    color: var(--text);
+}
+
+.venta-fecha {
+    font-size: 0.85rem;
+    color: var(--text-soft);
+}
+
+.venta-productos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.venta-producto {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--text-soft);
+    padding-left: 1rem;
+}
+
+.venta-producto-cant {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.venta-total {
+    text-align: left;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--primary);
+}
+
+#listaVentas {
+    max-height: 60vh;
+    overflow-y: auto;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    padding: 1rem;
+    background: rgba(15,23,42,.55);
+    backdrop-filter: blur(18px);
+}
+
+/* Scrollbar igual al de clientes */
+#listaVentas::-webkit-scrollbar {
+    width: 10px;
+}
+
+#listaVentas::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 999px;
+}
+
+#listaVentas::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(245,158,11,.85), rgba(217,119,6,.85));
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    transition: .25s ease;
+}
+
+#listaVentas::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(251,191,36,1), rgba(245,158,11,1));
+}
+
+/* Firefox */
+#listaVentas {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(245,158,11,.8) transparent;
+}

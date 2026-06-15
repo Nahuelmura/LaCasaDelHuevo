@@ -32,27 +32,27 @@ function ListadoProducto(filtro) {
       let contenidoTabla = ``;
 
       $.each(ProductosMostrar.productos, function (index, producto) {
-        const esActivo = !producto.eliminado;
-        contenidoTabla += `
-            <tr>
-              <td>${producto.codigo}</td>
-              <td>${producto.descripcion}</td>
-              <td>${producto.observacion}</td>
-              <td>${producto.cantidad}</td>
-              <td>$ ${formatearNumero(producto.precioCosto)}</td>
-              <td>$ ${formatearNumero(producto.precioVenta)}</td>
-              <td>${producto.fechaIngresostring}</td>
-              <td>
-                            <div class='d-flex justify-content-center gap-2'>
-                                <button type='button' 
-                                        class='pg-btn-action ${esActivo ? "pg-btn-edit" : "pg-btn-inactive"}' 
-                                        onclick='AbrirModalEditar(${producto.productoID})'
-                                        title='${esActivo ? "Editar producto" : "Producto inactivo"}'>
-                                    <i class='fa-solid fa-pen-to-square'></i>
-                                </button>
-                            </div>
-                        </td>                
-            </tr>
+          const esActivo = !producto.eliminado;
+          contenidoTabla += `
+              <tr class="${!esActivo ? 'table-secondary' : ''}">
+                  <td>${producto.codigo}</td>
+                  <td>${producto.descripcion}</td>
+                  <td>${producto.observacion}</td>
+                  <td>${producto.cantidad}</td>
+                  <td>$ ${formatearNumero(producto.precioCosto)}</td>
+                  <td>$ ${formatearNumero(producto.precioVenta)}</td>
+                  <td>${producto.fechaIngresostring}</td>
+                  <td>
+                      <div class='d-flex justify-content-center gap-2'>
+                          <button type='button' 
+                                  class='pg-btn-action ${esActivo ? "pg-btn-edit" : "pg-btn-inactive"}' 
+                                  onclick='AbrirModalEditar(${producto.productoID})'
+                                  title='${esActivo ? "Editar producto" : "Producto inactivo"}'>
+                              <i class='fa-solid fa-pen-to-square'></i>
+                          </button>
+                      </div>
+                  </td>                
+              </tr>
           `;
       });
 

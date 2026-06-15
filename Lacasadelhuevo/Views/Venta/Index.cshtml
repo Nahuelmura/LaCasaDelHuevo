@@ -4,15 +4,15 @@
 
 <link rel="stylesheet" href="~/css/Venta.css" />
 
-<div class="container-fluid px-4 py-4">
+<div class="pg-wrap">
 
-    <div class="d-flex align-items-center justify-content-between mb-4">
-        <div>
-            <h1 class="fw-bold mb-1"><i class="fas fa-shopping-cart me-2 text-primary"></i>Ventas</h1>
-            <p class="text-muted mb-0">Gestioná las ventas de forma completa y eficiente.</p>
-        </div>
-    </div>  
-    
+
+    <div class="pg-header">
+  
+            <h1 class="pg-title"><i class="fas fa-shopping-cart me-2 text-primary"></i>Ventas</h1>
+            <p class="pg-subtitle">Gestioná las ventas de forma completa y eficiente.</p>
+    </div> 
+
     <div class="pg-card">
     <p class="pg-section-label"><i class="fas fa-plus text-primary me-2"></i>Nueva venta</p>
     <input type="hidden" id="VentaID" value="0">
@@ -67,10 +67,8 @@
             <label>Total</label>
             <input type="number" id="total" readonly>
         </div>
-
     </div>
-
-    <div class="pg-actions">
+     <div class="pg-actions">
         <button class="btn-secondary" type="button" onclick="LimpiarFormularioAgregarItems()">
             <i class="fa-solid fa-xmark me-1"></i>Limpiar
         </button>
@@ -81,6 +79,7 @@
 </div>
 
 <div class="venta-tabla-wrap table-responsive">
+
     <table class="tbl-productos">
         <thead>
             <tr>
@@ -93,51 +92,27 @@
         </thead>
         <tbody id="itemsVentaBody"></tbody>
         <tfoot>
-            <tr>
+            <tr class="tfoot-total">
                 <td colspan="3" class="text-end fw-bold" style="color:var(--text-soft)">Total general:</td>
                 <td class="fw-bold" id="totalGeneral" style="color:var(--primary)">$0.00</td>
                 <td></td>
             </tr>
         </tfoot>
     </table>
-    <div id="tablaVentaVacia" class="text-center py-3" style="color:var(--text-soft)">
+    <div id="tablaVentaVacia" class="text-center" style="color:var(--text-soft)">
         <i class="fas fa-shopping-cart fa-2x mb-2 opacity-25"></i>
         <p style="font-size:0.9rem">No hay items agregados aún.</p>
     </div>
     <div>
         
-        <div class="d-flex justify-content-end gap-2 mt-3">
-    <button class="btn-cancelar-venta" type="button" onclick="CancelarVenta()">
-        <i class="fa-solid fa-xmark me-1"></i>Cancelar venta
-    </button>
-    <button class="btn-success" type="button" onclick="ConfirmarVenta()">
-        <i class="fa-solid fa-check me-1"></i>Finalizar venta
-    </button>
-</div>
-
-</div>
-
-
-    </div>
-    <div class="pg-card">
-        <p class="pg-section-label">Lista de ventas</p>
-        <div class="table-responsive mt-4">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Cliente</th>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio Unitario</th>
-                        <th>Total</th>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody id="ventasBody">
-                    @* Aquí se llenarán las filas de ventas desde el controlador *@
-                </tbody>
-            </table>
-        </div>  
+        <div class="d-flex justify-content-end gap-2 botones-venta">
+            <button class="btn-cancelar-venta" type="button" onclick="CancelarVenta()">
+                <i class="fa-solid fa-xmark me-1"></i>Cancelar venta
+            </button>
+            <button class="btn-success" type="button" onclick="ConfirmarVenta()">
+                <i class="fa-solid fa-check me-1"></i>Finalizar venta
+            </button>
+        </div>
     </div>
 </div>
 

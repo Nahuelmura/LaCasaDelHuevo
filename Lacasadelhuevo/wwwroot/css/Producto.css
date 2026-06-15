@@ -33,9 +33,13 @@ body {
 ========================= */
 .pg-header {
     margin-bottom: 1.5rem;
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
+
     justify-items: center;
+}
+.pg-wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
 }
 
 .pg-title {
@@ -337,6 +341,11 @@ body {
     font-size: 14px;
     letter-spacing: .05em;
     border-bottom: 1px solid var(--border);
+        background:
+        linear-gradient(
+            rgba(119, 134, 149, 0.98),
+            rgba(33, 42, 62, 0.98)
+        );
 }
 
 .tbl-productos thead th i {
@@ -533,4 +542,13 @@ body {
     .pg-actions {
         flex-direction: column;
     }
+}
+
+.tbl-productos tbody tr:not(.table-secondary) td {
+    color: var(--text);
+    background: rgba(255,255,255,0.02);
+}
+
+.tbl-productos tbody tr:not(.table-secondary):hover {
+    background: rgb(29, 27, 27);
 }

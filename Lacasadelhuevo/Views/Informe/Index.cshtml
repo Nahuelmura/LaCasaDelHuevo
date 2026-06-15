@@ -4,12 +4,37 @@
 
 <link rel="stylesheet" href="~/css/Informe.css" asp-append-version="true" />
 
-<div class="pg-wrap">
+    <div class="pg-wrap">
 
-    <div class="pg-header">
-        <h1 class="pg-title"><i class="fas fa-chart-bar me-2"></i>Informes</h1>
-        <p class="pg-subtitle">Generá informes detallados de tus ventas, clientes y productos.</p>
-    </div>
+        <div class="pg-header">
+            <h1 class="pg-title"><i class="fas fa-chart-bar me-2"></i>Informes</h1>
+            <p class="pg-subtitle">Generá informes detallados de tus ventas, clientes y productos.</p>
+        </div>
+
+
+        <!-- {{-- FILA 2: Ventas del mes --}} -->
+        <div class="pg-card mt-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <p class="pg-section-label mb-0">
+                    <i class="fas fa-chart-line me-2"></i>Ventas del año @DateTime.Now.Year
+                </p>
+                <button id="btnVolverMeses" class="btn-secondary d-none" onclick="volverAMeses()">
+                    <i class="fas fa-arrow-left me-1"></i>Volver
+                </button>
+            </div>
+
+            <p id="subtituloGrafico" style="font-size:0.85rem; color:var(--text-soft); margin-bottom:1rem">
+                Hacé click en un mes para ver el detalle por día.
+            </p>
+
+            <div id="loadingVentas" class="text-center py-3" style="color:var(--text-soft)">
+                <i class="fas fa-spinner fa-spin me-2"></i>Cargando...
+            </div>
+
+            <canvas id="graficoVentasMes" height="80"></canvas>
+        </div>
+
+    
 
     <!-- {{-- FILA 1: Más y menos vendidos --}} -->
     <div class="informes-grid">
@@ -38,29 +63,18 @@
 
     </div>
 
-    <!-- {{-- FILA 2: Ventas del mes --}} -->
-    <div class="pg-card mt-4">
-        <div class="d-flex align-items-center justify-content-between mb-3">
-            <p class="pg-section-label mb-0">
-                <i class="fas fa-chart-line me-2"></i>Ventas del año @DateTime.Now.Year
-            </p>
-            <button id="btnVolverMeses" class="btn-secondary d-none" onclick="volverAMeses()">
-                <i class="fas fa-arrow-left me-1"></i>Volver
-            </button>
+    <div class="pg-card">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <p class="pg-section-label mb-0"><i class="fas fa-receipt me-2"></i>Historial de ventas</p>
+
+            <div class="pg-field" style="width:280px">
+                <input type="text" id="filtroClienteVenta" class="form-control" placeholder="Filtrar por cliente...">
+            </div>
         </div>
 
-        <p id="subtituloGrafico" style="font-size:0.85rem; color:var(--text-soft); margin-bottom:1rem">
-            Hacé click en un mes para ver el detalle por día.
-        </p>
-
-        <div id="loadingVentas" class="text-center py-3" style="color:var(--text-soft)">
-            <i class="fas fa-spinner fa-spin me-2"></i>Cargando...
-        </div>
-
-        <canvas id="graficoVentasMes" height="80"></canvas>
+        <div id="listaVentas"></div>
     </div>
 
 </div>
-
 
 <script src="~/js/Informe.1.0.0.js"></script>

@@ -49,22 +49,48 @@
         </a>
 
     </div>
-</div>
 
+    <!-- {{-- RESUMEN DEL DÍA --}} -->
+    <div class="resumen-grid mb-4">
+        <div class="resumen-card">
+            <div class="resumen-icon resumen-icon-blue">
+                <i class="fas fa-box"></i>
+            </div>
+            <div>
+                <p class="resumen-label">Ventas del día</p>
+                <h2 class="resumen-valor" id="cantidadVendidaHoy">$0.00</h2>
+            </div>
+        </div>
 
-<!-- {{-- GRÁFICO VENTAS DEL MES --}} -->
-<div class="acceso-card-full mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <div>
-            <h3 class="pg-section-label mb-0">
-                <i class="fas fa-chart-line me-2"></i>Ventas del mes
-            </h3>
-            <p style="font-size:0.85rem; color:var(--text-soft); margin:0">
-                @DateTime.Now.ToString("MMMM yyyy", new System.Globalization.CultureInfo("es-AR"))
-            </p>
+        <div class="resumen-card">
+            <div class="resumen-icon resumen-icon-green">
+                <i class="fas fa-sack-dollar"></i>
+            </div>
+            <div>
+                <p class="resumen-label">Ganancia estimada hoy</p>
+                <h2 class="resumen-valor" id="gananciaHoy">$0.00</h2>
+                <p class="resumen-sub">basado en costo vs venta</p>
+            </div>
         </div>
     </div>
-    <canvas id="graficoVentas" height="70"></canvas>
+
+
+    <!-- {{-- GRÁFICO VENTAS DEL MES --}} -->
+    <div class="acceso-card-full">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h3 class="pg-section-label mb-0">
+                    <i class="fas fa-chart-line me-2"></i>Ventas del mes
+                </h3>
+                <p style="font-size:0.85rem; color:var(--text-soft); margin:0">
+                    @DateTime.Now.ToString("MMMM yyyy", new System.Globalization.CultureInfo("es-AR"))
+                </p>
+            </div>
+        </div>
+        <canvas id="graficoVentas" height="70"></canvas>
+    </div>
+
+    
 </div>
 
 
@@ -131,5 +157,13 @@
                 }
             });
         });
+
+
+        fetch('/Home/ResumenHoy')
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('cantidadVendidaHoy').textContent = `$${data.cantidadVendida.toFixed(2)}`;
+        document.getElementById('gananciaHoy').textContent = `$${data.gananciaEstimada.toFixed(2)}`;
+    });
 </script>
 }

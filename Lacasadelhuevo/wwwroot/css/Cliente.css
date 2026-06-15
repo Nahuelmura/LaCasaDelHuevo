@@ -276,6 +276,8 @@ body {
     border-spacing: 0;
     font-size: 0.92rem;
     color: var(--text);
+    
+
 }
 
 /* =========================
@@ -285,16 +287,13 @@ body {
     position: sticky;
     top: 0;
     z-index: 10;
-
-    padding: 1rem 1.2rem;
-
     background:
         linear-gradient(
-            135deg,
             rgba(119, 134, 149, 0.98),
             rgba(33, 42, 62, 0.98)
         );
 
+    padding: 1rem 1.2rem;
     color: #f8fafc;
 
     font-weight: 800;
@@ -326,10 +325,12 @@ body {
         box-shadow .2s ease;
 
     border-bottom: 1px solid rgba(255,255,255,0.04);
+ 
 }
 
 .tbl-productos tbody tr:nth-child(even) {
     background: rgba(255,255,255,0.015);
+
 }
 
 .tbl-productos tbody tr:hover {
@@ -484,9 +485,6 @@ body {
 
 
 .pg-header {
-
-    margin: 1.5rem;
-    padding: 0 0.5rem;
     justify-items: center;
 }
 

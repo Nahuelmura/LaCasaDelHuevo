@@ -104,5 +104,30 @@ public class InformeController : Controller
         return Json(new { ventas });
     }
 
+    [HttpGet]
+    public JsonResult ListaVenta()
+    {
+        var ventas = _context.Ventas
+            .Include(v => v.Clientes)
+            .Include(v => v.DetallesVentas)
+                .ThenInclude(d => d.Productos)
+            .Where(v => v.Clientes != null)
+            .OrderByDescending(v => v.FechaVenta)
+            .Select(v => new {
+                v.VentaID,
+                clienteNombre = v.Clientes.NombreCompletoCliente,
+                fechaVenta = v.FechaVenta.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                v.Total,
+                detalles = v.DetallesVentas.Select(d => new {
+                    descripcion = d.Productos.Descripcion,
+                    observacion = d.Productos.Observacion,
+                    cantidad = d.Cantidad,
+                    precioUnitario = d.PrecioUnitario
+                }).ToList()
+            })
+            .ToList();
+
+        return Json(new { ventas });
+    }
 
     }
